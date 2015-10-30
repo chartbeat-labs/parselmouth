@@ -3,14 +3,14 @@ from setuptools import setup
 setup(
     name='parselmouth',
     packages=['parselmouth'],
-    version='0.1',
+    version='0.2',
     description=(
         'An object oriented interface for ad provider services in python'
     ),
     author='Paul Kiernan, Justin Mazur',
     author_email='paulkiernan1@gmail.com, justindmazur@gmail.com',
     url='https://github.com/chartbeat-labs/parselmouth',
-    download_url = 'https://github.com/chartbeat-labs/parselmouth/tarball/0.1',
+    download_url = 'https://github.com/chartbeat-labs/parselmouth/tarball/0.2',
     keywords = ['googleads', 'dfp', 'ad server', 'parselmouth', 'ad provider'],
     classifiers = [],
     install_requires=[
