@@ -1,9 +1,9 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
     name='parselmouth',
-    packages=['parselmouth'],
-    version='0.2',
+    packages=find_packages(),
+    version='0.3',
     description=(
         'An object oriented interface for ad provider services in python'
     ),
