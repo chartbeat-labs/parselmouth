@@ -51,7 +51,7 @@ class TestParseltoungDFPConfig(unittest.TestCase):
         self.config_path = os.path.join(
             os.path.join(
                 os.path.dirname(os.path.realpath(PARSELTOUNGE_PACKAGE_PATH)),
-                "tests"
+                "../tests"
             ),
             "test_config.yaml"
         )
