@@ -10,7 +10,7 @@ setup(
     author='Paul Kiernan, Justin Mazur',
     author_email='paulkiernan1@gmail.com, justindmazur@gmail.com',
     url='https://github.com/chartbeat-labs/parselmouth',
-    download_url = 'https://github.com/chartbeat-labs/parselmouth/tarball/0.2',
+    download_url = 'https://github.com/chartbeat-labs/parselmouth/tarball/0.3',
     keywords = ['googleads', 'dfp', 'ad server', 'parselmouth', 'ad provider'],
     classifiers = [],
     install_requires=[
