@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Parseltongue utilities
+Parselmouth utilities
 """
 
 # Future-proof
@@ -15,7 +15,7 @@ from __future__ import unicode_literals
 import signal
 
 # Local Package Imports
-from parseltongue.exceptions import ParseltongueTimeout
+from parselmouth.exceptions import ParselmouthTimeout
 
 
 class Timeout(object):
@@ -49,7 +49,7 @@ class Timeout(object):
         # Always cancel immediately, since we're done
         try:
             self.cancel_timeout()
-        except ParseltongueTimeout:
+        except ParselmouthTimeout:
             # Weird case: we're done with the with body, but now the
             # alarm is fired.  We may safely ignore this situation and
             # consider the body done.
@@ -57,14 +57,14 @@ class Timeout(object):
 
         # __exit__ may return True to supress further exception
         # handling.  We don't want to suppress any exceptions here,
-        # since all errors should just pass through, ParseltongueTimeout
+        # since all errors should just pass through, ParselmouthTimeout
         # being handled normally to the invoking context.
-        if exc_type is ParseltongueTimeout and self._swallow_exception:
+        if exc_type is ParselmouthTimeout and self._swallow_exception:
             return True
         return False
 
     def handle_timeout(self, signum, frame):
-        raise ParseltongueTimeout(
+        raise ParselmouthTimeout(
             '%s exceeded maximum timeout value (%d seconds).' % (
                 frame.f_code.co_name,
                 self._timeout
@@ -74,7 +74,7 @@ class Timeout(object):
     def setup_timeout(self):
         """
         Sets up an alarm signal and a signal handler that raises a
-        ParseltongueTimeout after the timeout amount (expressed in
+        ParselmouthTimeout after the timeout amount (expressed in
         seconds).
         """
         signal.signal(signal.SIGALRM, self.handle_timeout)

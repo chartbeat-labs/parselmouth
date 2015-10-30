@@ -23,17 +23,17 @@ from googleads.dfp import FilterStatement
 from googleads.dfp import SUGGESTED_PAGE_LIMIT
 from googleads.errors import DfpReportError
 
-# Parseltongue Imports
-from parseltongue.exceptions import ParseltongueException
+# Parselmouth Imports
+from parselmouth.exceptions import ParselmouthException
 
-# Parseltongue Imports - Local DFP Adapter Imports
-from parseltongue.adapters.dfp.constants import DFP_API_VERSION
-from parseltongue.adapters.dfp.constants import DFP_CUSTOM_TARGETING_KEY_TYPES
-from parseltongue.adapters.dfp.constants import DFP_QUERY_DEFAULTS
-from parseltongue.adapters.dfp.constants import DFP_VALUE_MATCH_TYPES
-from parseltongue.adapters.dfp.utils import format_pql_response
-from parseltongue.adapters.dfp.utils import format_report_list
-from parseltongue.adapters.dfp.utils import sanitize_report_response
+# Parselmouth Imports - Local DFP Adapter Imports
+from parselmouth.adapters.dfp.constants import DFP_API_VERSION
+from parselmouth.adapters.dfp.constants import DFP_CUSTOM_TARGETING_KEY_TYPES
+from parselmouth.adapters.dfp.constants import DFP_QUERY_DEFAULTS
+from parselmouth.adapters.dfp.constants import DFP_VALUE_MATCH_TYPES
+from parselmouth.adapters.dfp.utils import format_pql_response
+from parselmouth.adapters.dfp.utils import format_report_list
+from parselmouth.adapters.dfp.utils import sanitize_report_response
 
 
 class DFPClient(object):
@@ -166,7 +166,7 @@ class DFPClient(object):
             try:
                 response = query_function(query.ToStatement())
             except Exception as e:
-                raise ParseltongueException(
+                raise ParselmouthException(
                     "Error running query: {0}. Got Error: {1}".format(
                         query.ToStatement(),
                         str(e)
@@ -588,12 +588,12 @@ class DFPClient(object):
 
         # Input checking
         if key_type not in DFP_CUSTOM_TARGETING_KEY_TYPES:
-            raise ParseltongueException(
+            raise ParselmouthException(
                 "Provided key type ({0}) not one of a valid type ({1})".format(
                     key_type, DFP_CUSTOM_TARGETING_KEY_TYPES
                 ))
         if value_match_type and value_match_type not in DFP_VALUE_MATCH_TYPES:
-            raise ParseltongueException(
+            raise ParselmouthException(
                 "Provided val type ({0}) not one of a valid type ({1})".format(
                     value_match_type, DFP_VALUE_MATCH_TYPES
                 ))
@@ -631,9 +631,9 @@ class DFPClient(object):
 
         # Extract the key we want
         if len(keys) == 0:
-            raise ParseltongueException("No keys returned by DFP")
+            raise ParselmouthException("No keys returned by DFP")
         elif len(keys) > 1:
-            raise ParseltongueException("Too many keys returned by DFP")
+            raise ParselmouthException("Too many keys returned by DFP")
         key = keys[0]
 
         # Create the new value in DFP
@@ -650,13 +650,13 @@ class DFPClient(object):
 
         # Extract the value we want
         if len(values) == 0:
-            raise ParseltongueException("No values returned by DFP")
+            raise ParselmouthException("No values returned by DFP")
         elif len(values) > 1:
-            raise ParseltongueException("Too many values returned by DFP")
+            raise ParselmouthException("Too many values returned by DFP")
         value = values[0]
 
         if value['customTargetingKeyId'] != key['id']:
-            raise ParseltongueException((
+            raise ParselmouthException((
                 "Value custom target key id ({0}) does not equal the Key id "
                 "({1})".format(value['customTargetingKeyId'], key['id'])
             ))

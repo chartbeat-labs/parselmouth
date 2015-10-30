@@ -1,8 +1,8 @@
 import unittest
 
-from parseltongue.targeting import TargetingCriterion
-from parseltongue.targeting import AdUnit
-from parseltongue.exceptions import ParseltongueException
+from parselmouth.targeting import TargetingCriterion
+from parselmouth.targeting import AdUnit
+from parselmouth.exceptions import ParselmouthException
 
 
 ADUNIT1 = AdUnit(
@@ -177,11 +177,11 @@ class TargetingCriterionTest(unittest.TestCase):
         answer_criterion = None
         self.assertEqual(test_criterion, answer_criterion)
 
-        self.assertRaises(ParseltongueException, CRITERION3.remove_target, CRITERION2)
+        self.assertRaises(ParselmouthException, CRITERION3.remove_target, CRITERION2)
 
-        self.assertRaises(ParseltongueException, CRITERION5.remove_target, CRITERION4)
+        self.assertRaises(ParselmouthException, CRITERION5.remove_target, CRITERION4)
 
-        self.assertRaises(ParseltongueException, (CRITERION1 & CRITERION5).remove_target, CRITERION5)
+        self.assertRaises(ParselmouthException, (CRITERION1 & CRITERION5).remove_target, CRITERION5)
 
     def test_to_doc(self):
         # Test to doc

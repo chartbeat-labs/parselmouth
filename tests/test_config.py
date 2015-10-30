@@ -16,10 +16,10 @@ from __future__ import unicode_literals
 import os.path
 import unittest
 
-# Parseltongue imports
-from parseltongue import __file__ as PARSELTOUNGE_PACKAGE_PATH
-from parseltongue.config import DFPConfig
-from parseltongue.exceptions import ParseltongueException
+# Parselmouth imports
+from parselmouth import __file__ as PARSELTOUNGE_PACKAGE_PATH
+from parselmouth.config import DFPConfig
+from parselmouth.exceptions import ParselmouthException
 
 
 def _verify_credentials(config):
@@ -27,7 +27,7 @@ def _verify_credentials(config):
     Helper for validating that correct credentials were loaded into the
     config object
 
-    @param config: child(parseltongue.config.ParseltongueConfig)
+    @param config: child(parselmouth.config.ParselmouthConfig)
     @raises: AssertionError if credentials don't match expected
     """
     assert config.client_id == 'ID'
@@ -71,7 +71,7 @@ class TestParseltoungDFPConfig(unittest.TestCase):
         _verify_credentials(config)
 
     def test_invalid_config_param_combination(self):
-        with self.assertRaises(ParseltongueException):
+        with self.assertRaises(ParselmouthException):
             config = DFPConfig(
                 client_id=self.client_id,
                 client_secret=self.client_secret,
@@ -82,7 +82,7 @@ class TestParseltoungDFPConfig(unittest.TestCase):
             )
 
     def test_no_config_params(self):
-        with self.assertRaises(ParseltongueException):
+        with self.assertRaises(ParselmouthException):
             config = DFPConfig()
 
 

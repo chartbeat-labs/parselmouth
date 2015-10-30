@@ -1,6 +1,6 @@
 import unittest
 
-from parseltongue.utils.check import check_equal
+from parselmouth.utils.check import check_equal
 
 
 class UtilsTest(unittest.TestCase):

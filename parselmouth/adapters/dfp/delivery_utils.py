@@ -17,17 +17,17 @@ from datetime import datetime
 # Third Party Library Imports
 import pytz
 
-# Parseltongue Imports
-from parseltongue.delivery import Campaign
-from parseltongue.delivery import Creative
-from parseltongue.delivery import Cost
-from parseltongue.delivery import DeliveryMeta
-from parseltongue.delivery import Goal
-from parseltongue.delivery import LineItem
-from parseltongue.delivery import Stats
-from parseltongue.adapters.dfp.constants import SELL_TYPE_MAP
-from parseltongue.adapters.dfp.targeting_utils import transform_targeting_data_from_dfp
-from parseltongue.adapters.dfp.targeting_utils import transform_targeting_data_to_dfp
+# Parselmouth Imports
+from parselmouth.delivery import Campaign
+from parselmouth.delivery import Creative
+from parselmouth.delivery import Cost
+from parselmouth.delivery import DeliveryMeta
+from parselmouth.delivery import Goal
+from parselmouth.delivery import LineItem
+from parselmouth.delivery import Stats
+from parselmouth.adapters.dfp.constants import SELL_TYPE_MAP
+from parselmouth.adapters.dfp.targeting_utils import transform_targeting_data_from_dfp
+from parselmouth.adapters.dfp.targeting_utils import transform_targeting_data_to_dfp
 
 
 def dfp_date_to_datetime(dfp_date_dict):
@@ -123,10 +123,10 @@ def _get_dfp_dates_from_object(dfp_dict):
 def transform_campaign_from_dfp(order):
     """
     Convert dictionary-representation for a SUDS order object into a
-    Parseltongue representation of an order
+    Parselmouth representation of an order
     @param order: dict, dictionary-representation of a DFP SUDS response
         for a single order
-    @return: parseltongue.delivery.Campaign
+    @return: parselmouth.delivery.Campaign
     """
     # Sanitize and cast inputs
     start_datetime, end_datetime, last_modified_datetime = \
@@ -191,11 +191,11 @@ def transform_campaign_to_dfp(campaign):
 def transform_line_item_from_dfp(line_item):
     """
     Convert dictionary-representation for a SUDS line item object into a
-    Parseltongue representation of a Line Item
+    Parselmouth representation of a Line Item
 
     @param order: dict, dictionary-representation of a DFP SUDS response
         for a single line item
-    @return: parseltongue.delivery.LineItem
+    @return: parselmouth.delivery.LineItem
     """
     # Sanitize and cast inputs
     start_datetime, end_datetime, last_modified_datetime = \
@@ -407,10 +407,10 @@ def transform_forecast_line_item_to_dfp(line_item,
 def transform_creative_from_dfp(creative):
     """
     Convert dictionary-representation for a SUDS creative object into a
-    Parseltongue representation of a Creative
+    Parselmouth representation of a Creative
     @param order: dict, dictionary-representation of a DFP SUDS response
         for a single creative
-    @return: parseltongue.delivery.Creative
+    @return: parselmouth.delivery.Creative
     """
 
     _, _, last_modified_datetime = _get_dfp_dates_from_object(creative)

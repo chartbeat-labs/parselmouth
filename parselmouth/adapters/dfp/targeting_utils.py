@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-""" Parseltongue - DFP Targeting Utilities
+""" Parselmouth - DFP Targeting Utilities
 """
 
 # Future-proof
@@ -13,21 +13,21 @@ from __future__ import unicode_literals
 # Standard Library Imports
 from collections import defaultdict
 
-# Parseltongue Imports
-from parseltongue.constants import TechnologyTargetTypes
-from parseltongue.exceptions import ParseltongueException
-from parseltongue.targeting import AdUnit
-from parseltongue.targeting import Custom
-from parseltongue.targeting import Geography
-from parseltongue.targeting import Placement
-from parseltongue.targeting import TargetingCriterion
-from parseltongue.targeting import TargetingData
-from parseltongue.targeting import Technology
+# Parselmouth Imports
+from parselmouth.constants import TechnologyTargetTypes
+from parselmouth.exceptions import ParselmouthException
+from parselmouth.targeting import AdUnit
+from parselmouth.targeting import Custom
+from parselmouth.targeting import Geography
+from parselmouth.targeting import Placement
+from parselmouth.targeting import TargetingCriterion
+from parselmouth.targeting import TargetingData
+from parselmouth.targeting import Technology
 
 
 def clean_target_dict(data):
     """
-    There are many unimplemented fields throughout parseltongue,
+    There are many unimplemented fields throughout parselmouth,
     for example some types of targeting are not yet implemented.
     In these cases, we must clean the dictionary before we pass
     it back to DFP. Fields like X.Type exist in many places, and these
@@ -587,7 +587,7 @@ def _custom_target_list_to_child_list(custom_targets, is_operator):
 
                 if (_this_node_type != _custom_value.node_key or
                         _this_node_value_type != _custom_value.id_key):
-                    raise ParseltongueException(
+                    raise ParselmouthException(
                         "Could not serialize Custom Target: %s" % _custom_value
                     )
                 _value_target_ids.append(_custom_value.id)
@@ -660,11 +660,11 @@ def transform_custom_targeting_to_dfp(targeting):
 def transform_targeting_data_from_dfp(targeting):
     """
     Convert dictionary-representation for a SUDS creative object into a
-    Parseltongue representation of a Creative
+    Parselmouth representation of a Creative
 
     @param targeting: dict, dictionary-representation of a DFP SUDS response
         for a single creative
-    @return: parseltongue.delivery.TargetingData
+    @return: parselmouth.delivery.TargetingData
     """
 
     return TargetingData(
@@ -682,11 +682,11 @@ def transform_targeting_data_from_dfp(targeting):
 def transform_targeting_data_to_dfp(targeting):
     """
     Convert dictionary-representation for a SUDS creative object into a
-    Parseltongue representation of a Creative
+    Parselmouth representation of a Creative
 
     @param targeting: dict, dictionary-representation of a DFP SUDS response
         for a single creative
-    @return: parseltongue.delivery.TargetingData
+    @return: parselmouth.delivery.TargetingData
     """
     dfp_targeting = {}
 

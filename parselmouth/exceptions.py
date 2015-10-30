@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-""" Parseltongue - Exceptions
+""" Parselmouth - Exceptions
 """
 
 # Future-proof
@@ -11,17 +11,17 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 
-class ParseltongueException(Exception):
-    """ Base Exception for the Parseltongue project
+class ParselmouthException(Exception):
+    """ Base Exception for the Parselmouth project
     """
     pass
 
-class ParseltongueNetworkError(Exception):
-    """ Base Exception for the Parseltongue Network Errors
+class ParselmouthNetworkError(Exception):
+    """ Base Exception for the Parselmouth Network Errors
     """
     pass
 
-class ParseltongueTimeout(ParseltongueNetworkError):
+class ParselmouthTimeout(ParselmouthNetworkError):
     """
     Raised when the block under context management takes longer to
     complete than the allowed maximum timeout value.

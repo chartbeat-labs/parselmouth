@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-""" Parseltongue - Main Package Entry Point
+""" Parselmouth - Main Package Entry Point
 
 This package serves as the base interface between Chartbeat worker and
 services and third-party ad servers.
@@ -19,29 +19,29 @@ import logging
 # Third Party Library Imports
 from cjson import decode
 
-# Parseltongue Imports
-from parseltongue.constants import MAX_REQUEST_ATTEMPTS
-from parseltongue.constants import ParseltongueProviders
-from parseltongue.constants import ParseltongueReportMetrics
-from parseltongue.exceptions import ParseltongueException
-from parseltongue.exceptions import ParseltongueNetworkError
-from parseltongue.targeting import Custom
-from parseltongue.tree_builder import TreeBuilder
-from parseltongue.utils.timeout import Timeout
-from parseltongue.config import DFPConfig
+# Parselmouth Imports
+from parselmouth.constants import MAX_REQUEST_ATTEMPTS
+from parselmouth.constants import ParselmouthProviders
+from parselmouth.constants import ParselmouthReportMetrics
+from parselmouth.exceptions import ParselmouthException
+from parselmouth.exceptions import ParselmouthNetworkError
+from parselmouth.targeting import Custom
+from parselmouth.tree_builder import TreeBuilder
+from parselmouth.utils.timeout import Timeout
+from parselmouth.config import DFPConfig
 
-# Parseltongue Imports - Adapter Imports
-from parseltongue.adapters.dfp.interface import DFPInterface
+# Parselmouth Imports - Adapter Imports
+from parselmouth.adapters.dfp.interface import DFPInterface
 
 
-class Parseltongue(object):
+class Parselmouth(object):
     """
     Base Interface Class
     """
 
     ProviderInterfaceMap = {
-        ParseltongueProviders.google_dfp_premium: DFPInterface,
-        ParseltongueProviders.google_dfp_small_business: DFPInterface,
+        ParselmouthProviders.google_dfp_premium: DFPInterface,
+        ParselmouthProviders.google_dfp_small_business: DFPInterface,
     }
     """
     dict, mapping between ad service providers and their implementations
@@ -52,8 +52,8 @@ class Parseltongue(object):
     """
 
     ProviderConfigInterfaceMap = {
-        ParseltongueProviders.google_dfp_premium: DFPConfig,
-        ParseltongueProviders.google_dfp_small_business: DFPConfig,
+        ParselmouthProviders.google_dfp_premium: DFPConfig,
+        ParselmouthProviders.google_dfp_small_business: DFPConfig,
     }
     """
     dict, mapping between ad service providers and their configuration
@@ -78,8 +78,8 @@ class Parseltongue(object):
 
         Authenticates a provider client for the given domain.
 
-        @param provider_name: any(parseltongue.constants.ParseltoungProvider)
-        @param provider_config: child(parseltongue.config.ParseltongueConfig)
+        @param provider_name: any(parselmouth.constants.ParseltoungProvider)
+        @param provider_config: child(parselmouth.config.ParselmouthConfig)
 
         """
         self.provider_name = provider_name
@@ -107,7 +107,7 @@ class Parseltongue(object):
         try:
             self.get_network_timezone()
         except Exception as e:
-            raise ParseltongueException("Provider not configured correctly. {}".format(str(e)))
+            raise ParselmouthException("Provider not configured correctly. {}".format(str(e)))
 
     def __str__(self):
         """
@@ -134,9 +134,9 @@ class Parseltongue(object):
         provider name
 
         @param provider_name: str, one of enum
-            parseltongue.constants.ParseltongueProviders
+            parselmouth.constants.ParselmouthProviders
         @return: descendant of
-            parseltongue.adapters.abstract_interface.AbstractInterface
+            parselmouth.adapters.abstract_interface.AbstractInterface
         """
         client_interface = cls.ProviderInterfaceMap.get(provider_name)
         if not client_interface:
@@ -153,8 +153,8 @@ class Parseltongue(object):
         service provider name
 
         @param provider_name: str, one of enum
-            parseltongue.constants.ParseltongueProviders
-        @return: child(parseltongue.config.ParseltongueConfig)
+            parselmouth.constants.ParselmouthProviders
+        @return: child(parselmouth.config.ParselmouthConfig)
         """
         config_interface = cls.ProviderConfigInterfaceMap.get(provider_name)
         if not config_interface:
@@ -189,7 +189,7 @@ class Parseltongue(object):
 
         @param campaign_id: str, id of the campaign to return
         @param include_line_items: bool, include line item data as well
-        @return: parseltongue.delivery.Campaign
+        @return: parselmouth.delivery.Campaign
         """
         with Timeout(self.DEFAULT_NETWORK_TIMEOUT):
             campaign = self.provider.get_campaign(campaign_id)
@@ -208,7 +208,7 @@ class Parseltongue(object):
         @param offset: int, page in a stream of PQL results to return
         @param filter_kwargs: dict, keyword arguments on which to filter
             PQL results
-        @return: L{parseltongue.delivery.Campaign}
+        @return: L{parselmouth.delivery.Campaign}
         """
         with Timeout(self.DEFAULT_NETWORK_TIMEOUT):
             return self.provider.get_campaigns(**kwargs)
@@ -218,7 +218,7 @@ class Parseltongue(object):
         Return a line item object given an id
 
         @param line_item_id: str, id of the LineItem to return
-        @return: parseltongue.delivery.LineItem
+        @return: parselmouth.delivery.LineItem
         """
         attempt = 1
         response = None
@@ -226,12 +226,12 @@ class Parseltongue(object):
             try:
                 with Timeout(self.DEFAULT_NETWORK_TIMEOUT):
                     response = self.provider.get_line_item(line_item_id)
-            except ParseltongueNetworkError:
+            except ParselmouthNetworkError:
                 logging.exception("Got network error on attempt %s" % attempt)
                 attempt += 1
 
         if not response:
-            raise ParseltongueException(
+            raise ParselmouthException(
                 'Could not fetch a line item in {0} attempts'.format(
                     MAX_REQUEST_ATTEMPTS
                 )
@@ -248,7 +248,7 @@ class Parseltongue(object):
         @param offset: int, page in a stream of PQL results to return
         @param filter_kwargs: dict, keyword arguments on which to filter
             PQL results
-        @return: L{parseltongue.delivery.LineItem}
+        @return: L{parselmouth.delivery.LineItem}
         """
         with Timeout(self.DEFAULT_NETWORK_TIMEOUT):
             return self.provider.get_line_items(**kwargs)
@@ -258,7 +258,7 @@ class Parseltongue(object):
         Get line items on optional filters
 
         @param campaign: Campaign|str,
-        @return: L{parseltongue.delivery.LineItem}
+        @return: L{parselmouth.delivery.LineItem}
         """
         with Timeout(self.DEFAULT_NETWORK_TIMEOUT):
             return self.provider.get_campaign_line_items(campaign)
@@ -294,7 +294,7 @@ class Parseltongue(object):
         Return a creative object given an id
 
         @param creative_id: str, id of the campaign to return
-        @return: parseltongue.delivery.Creative
+        @return: parselmouth.delivery.Creative
         """
         return self.provider.get_creative(creative_id)
 
@@ -307,7 +307,7 @@ class Parseltongue(object):
         @param offset: int, page in a stream of PQL results to return
         @param filter_kwargs: dict, keyword arguments on which to filter
             PQL results
-        @return: L{parseltongue.delivery.Creative}
+        @return: L{parselmouth.delivery.Creative}
         """
         with Timeout(self.DEFAULT_NETWORK_TIMEOUT):
             return self.provider.get_creatives(**kwargs)
@@ -316,9 +316,9 @@ class Parseltongue(object):
         """
         Return the creatives associated with a given line item
 
-        @param line_item: str|int|parseltongue.delivery.LineItem,
+        @param line_item: str|int|parselmouth.delivery.LineItem,
             either the id of the lineitem or an object with the id
-        @return: list(parseltongue.delivery.Creative)
+        @return: list(parselmouth.delivery.Creative)
         """
         with Timeout(self.DEFAULT_NETWORK_TIMEOUT):
             return self.provider.get_line_item_creatives(line_item)
@@ -326,7 +326,7 @@ class Parseltongue(object):
     def get_line_item_report(self,
                              start,
                              end,
-                             columns=[ParseltongueReportMetrics.ad_impressions]):
+                             columns=[ParselmouthReportMetrics.ad_impressions]):
         """
         Get the number of impressions served by DFP
         for all line items between the two datetimes.
@@ -364,7 +364,7 @@ class Parseltongue(object):
             )
 
         if targets and len(targets) > 1:
-            raise ParseltongueException('Given name is not unique')
+            raise ParselmouthException('Given name is not unique')
         elif targets:
             return targets[0]
         else:
@@ -375,7 +375,7 @@ class Parseltongue(object):
         Get all data of type target_type from ad provider,
         and build a tree
 
-        @param taget_type: parseltongueTargetTypes
+        @param taget_type: parselmouthTargetTypes
         @return: NodeTree
         """
         return self.tree_builder.construct_tree(target_type)
@@ -384,7 +384,7 @@ class Parseltongue(object):
         """
         Update a Line Item for a provider
 
-        @param line_item: parseltongue.delivery.LineItem
+        @param line_item: parselmouth.delivery.LineItem
         """
         with Timeout(self.DEFAULT_NETWORK_TIMEOUT):
             self.update_line_items([line_item])
@@ -393,7 +393,7 @@ class Parseltongue(object):
         """
         Update multiple Line Item for a provider
 
-        @param line_items: L{parseltongue.delivery.LineItem}
+        @param line_items: L{parselmouth.delivery.LineItem}
         """
         with Timeout(self.DEFAULT_NETWORK_TIMEOUT):
             self.provider.update_line_items(line_items)
@@ -402,34 +402,34 @@ class Parseltongue(object):
         """
         Add a custom target to this domain's ad service provider
 
-        @param key: parseltongue.targeting.Custom
-        @param value: parseltongue.targeting.Custom
-        @return: list(parseltongue.targeting.Custom)
+        @param key: parselmouth.targeting.Custom
+        @param value: parselmouth.targeting.Custom
+        @return: list(parselmouth.targeting.Custom)
         """
         with Timeout(self.DEFAULT_NETWORK_TIMEOUT):
             return self.provider.create_custom_target(key, value)
 
 
 def main():
-    parseltongue_client = Parseltongue(
-        provider_name=ParseltongueProviders.google_dfp_premium,
+    parselmouth_client = Parselmouth(
+        provider_name=ParselmouthProviders.google_dfp_premium,
         client_id='631172904154-2vl835o6g730hckv76bro5pk3k85evkj.apps.googleusercontent.com',
         client_secret='eeyNpcJGR11G0rZoBs70JoBq',
         refresh_token='1/FlFq4Uy7y-NZtyC3KsIEH-YdweA_CvD6mh423SkJSJo',
         application_name='chartbeatadsDFP',
         network_code='31026643',
     )
-    cmps = parseltongue_client.get_campaigns()
-    cmp = parseltongue_client.get_campaign('134419323', True)
-    lis = parseltongue_client.get_campaign_line_items(cmp)
-    _lis = parseltongue_client.get_campaign_line_items(cmp.id)
-    adunits = parseltongue_client.construct_tree('adunit')
-    crts = parseltongue_client.get_creatives()
-    crt = parseltongue_client.get_creative('23137026003')
+    cmps = parselmouth_client.get_campaigns()
+    cmp = parselmouth_client.get_campaign('134419323', True)
+    lis = parselmouth_client.get_campaign_line_items(cmp)
+    _lis = parselmouth_client.get_campaign_line_items(cmp.id)
+    adunits = parselmouth_client.construct_tree('adunit')
+    crts = parselmouth_client.get_creatives()
+    crt = parselmouth_client.get_creative('23137026003')
 
-    li = parseltongue_client.get_line_item('74067003')
-    from parseltongue.delivery import LineItem
-    from parseltongue.targeting import TargetingData
+    li = parselmouth_client.get_line_item('74067003')
+    from parselmouth.delivery import LineItem
+    from parselmouth.targeting import TargetingData
     from datetime import datetime
     targeting = TargetingData(inventory=li.targeting.inventory)
     line_item = LineItem(
@@ -438,7 +438,7 @@ def main():
             cost_type='CPM',
             targeting=targeting,
     )
-    av = parseltongue_client.get_line_item_available_inventory(line_item)
+    av = parselmouth_client.get_line_item_available_inventory(line_item)
     import pdb;pdb.set_trace()
 
 

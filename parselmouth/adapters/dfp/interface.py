@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-""" Parseltongue DFP Interface
+""" Parselmouth DFP Interface
 """
 
 # Future-proof
@@ -16,34 +16,34 @@ from datetime import timedelta
 from pytz import timezone
 from urllib import quote
 
-# Parseltongue Imports
-from parseltongue.adapters.abstract_interface import AbstractInterface
-from parseltongue.delivery import Campaign
-from parseltongue.delivery import LineItem
-from parseltongue.exceptions import ParseltongueException
-from parseltongue.targeting import AdUnit
-from parseltongue.targeting import Custom
-from parseltongue.targeting import Geography
-from parseltongue.utils.dateutils import align_to_day
+# Parselmouth Imports
+from parselmouth.adapters.abstract_interface import AbstractInterface
+from parselmouth.delivery import Campaign
+from parselmouth.delivery import LineItem
+from parselmouth.exceptions import ParselmouthException
+from parselmouth.targeting import AdUnit
+from parselmouth.targeting import Custom
+from parselmouth.targeting import Geography
+from parselmouth.utils.dateutils import align_to_day
 
-# Parseltongue Imports - Local DFP Adapter Imports
-from parseltongue.adapters.dfp.constants import DFP_API_VERSION
-from parseltongue.adapters.dfp.constants import DFP_QUERY_DEFAULTS
-from parseltongue.adapters.dfp.constants import DFP_REPORT_METRIC_MAP
-from parseltongue.adapters.dfp.client  import DFPClient
-from parseltongue.adapters.dfp.utils import recursive_asdict
-from parseltongue.adapters.dfp.delivery_utils import transform_line_item_from_dfp
-from parseltongue.adapters.dfp.delivery_utils import transform_line_item_to_dfp
-from parseltongue.adapters.dfp.delivery_utils import transform_forecast_line_item_to_dfp
-from parseltongue.adapters.dfp.delivery_utils import transform_campaign_from_dfp
-from parseltongue.adapters.dfp.delivery_utils import transform_creative_from_dfp
+# Parselmouth Imports - Local DFP Adapter Imports
+from parselmouth.adapters.dfp.constants import DFP_API_VERSION
+from parselmouth.adapters.dfp.constants import DFP_QUERY_DEFAULTS
+from parselmouth.adapters.dfp.constants import DFP_REPORT_METRIC_MAP
+from parselmouth.adapters.dfp.client  import DFPClient
+from parselmouth.adapters.dfp.utils import recursive_asdict
+from parselmouth.adapters.dfp.delivery_utils import transform_line_item_from_dfp
+from parselmouth.adapters.dfp.delivery_utils import transform_line_item_to_dfp
+from parselmouth.adapters.dfp.delivery_utils import transform_forecast_line_item_to_dfp
+from parselmouth.adapters.dfp.delivery_utils import transform_campaign_from_dfp
+from parselmouth.adapters.dfp.delivery_utils import transform_creative_from_dfp
 
 
 class DFPInterface(AbstractInterface):
     """
     Implementation of the DFP Ad service interface
 
-    Serializes native Parseltongue objects into the PQL (Publisher
+    Serializes native Parselmouth objects into the PQL (Publisher
     Query Language) representations for querying objects
     """
 
@@ -51,7 +51,7 @@ class DFPInterface(AbstractInterface):
         """
         Constructor
 
-        @param provider_config: child(parseltongue.config.ParseltongueConfig)
+        @param provider_config: child(parselmouth.config.ParselmouthConfig)
         """
         self.dfp_client = DFPClient(
             provider_config.client_id,
@@ -85,18 +85,18 @@ class DFPInterface(AbstractInterface):
         Return a campaign object given an id
 
         @param campaign_id: str, id of the campaign to return
-        @return: parseltongue.delivery.Campaign
+        @return: parselmouth.delivery.Campaign
         """
         # Fetch the SUDS object and convert to a proper dictionary
         dfp_order = self.dfp_client.get_order(campaign_id)
         results = self._convert_response_to_dict(dfp_order)
 
         if len(results) == 0:
-            raise ParseltongueException(
+            raise ParselmouthException(
                 "No results for campaign with id: {0}".format(campaign_id)
             )
         elif len(results) > 1:
-            raise ParseltongueException(
+            raise ParselmouthException(
                 "More than one result for campaign with id: {0}".format(
                     campaign_id
                 )
@@ -117,7 +117,7 @@ class DFPInterface(AbstractInterface):
         @param offset: int, page in a stream of PQL results to return
         @param filter_kwargs: dict, keyword arguments on which to filter
             PQL results
-        @return: L{parseltongue.delivery.Campaign}
+        @return: L{parselmouth.delivery.Campaign}
 
         Example:
             * Get an order by id: `get_campaigns(id=ORDER_ID)`
@@ -145,17 +145,17 @@ class DFPInterface(AbstractInterface):
         Return a line item object given an id
 
         @param line_item_id: str, id of the LineItem to return
-        @return: parseltongue.delivery.LineItem
+        @return: parselmouth.delivery.LineItem
         """
         dfp_line_item = self.dfp_client.get_line_item(line_item_id)
         results = self._convert_response_to_dict(dfp_line_item)
 
         if len(results) == 0:
-            raise ParseltongueException(
+            raise ParselmouthException(
                 "No results for line item with id: {0}".format(line_item_id)
             )
         elif len(results) > 1:
-            raise ParseltongueException(
+            raise ParselmouthException(
                 "More than one result for line item with id: {0}".format(
                     line_item_id
                 )
@@ -176,7 +176,7 @@ class DFPInterface(AbstractInterface):
         @param offset: int, page in a stream of PQL results to return
         @param filter_kwargs: dict, keyword arguments on which to filter
             PQL results
-        @return: L{parseltongue.delivery.LineItem}
+        @return: L{parselmouth.delivery.LineItem}
         """
 
         # Fetch the SUDS object and convert to a proper dictionary
@@ -200,7 +200,7 @@ class DFPInterface(AbstractInterface):
         Get line items on optional filters
 
         @param campaign: Campaign|str
-        @return: L{parseltongue.delivery.LineItem}
+        @return: L{parselmouth.delivery.LineItem}
         """
         if isinstance(campaign, Campaign):
             _id = campaign.id
@@ -237,7 +237,7 @@ class DFPInterface(AbstractInterface):
         try:
             dfp_forecast = self.dfp_client.forecast_line_item(dfp_line_item)
         except Exception as e:
-            raise ParseltongueException(e)
+            raise ParselmouthException(e)
 
         forecast = recursive_asdict(dfp_forecast)
         if forecast and forecast.get('availableUnits'):
@@ -260,7 +260,7 @@ class DFPInterface(AbstractInterface):
         brands = self.dfp_client.get_advertisers()
 
         if len(brands) == 0:
-            raise ParseltongueException(
+            raise ParselmouthException(
                 "No brands found"
             )
         else:
@@ -271,17 +271,17 @@ class DFPInterface(AbstractInterface):
         Return a creative object given an id
 
         @param creative_id: str, id of the campaign to return
-        @return: parseltongue.delivery.Creative
+        @return: parselmouth.delivery.Creative
         """
         dfp_creative = self.dfp_client.get_creative(creative_id)
         creatives = self._convert_response_to_dict(dfp_creative)
 
         if len(creatives) == 0:
-            raise ParseltongueException(
+            raise ParselmouthException(
                 "No results for creative with id: {0}".format(creative_id)
             )
         elif len(creatives) > 1:
-            raise ParseltongueException(
+            raise ParselmouthException(
                 "More than one result for creative with id: {0}".format(
                     creative_id
                 )
@@ -302,7 +302,7 @@ class DFPInterface(AbstractInterface):
         @param offset: int, page in a stream of PQL results to return
         @param filter_kwargs: dict, keyword arguments on which to filter
             PQL results
-        @return: L{parseltongue.delivery.LineItem}
+        @return: L{parselmouth.delivery.LineItem}
         """
 
         # Fetch the SUDS object and convert to a proper dictionary
@@ -325,9 +325,9 @@ class DFPInterface(AbstractInterface):
         """
         Return the creatives associated with a given line item
 
-        @param line_item: str|int|parseltongue.delivery.LineItem,
+        @param line_item: str|int|parselmouth.delivery.LineItem,
             either the id of the lineitem or an object with the id
-        @return: list(parseltongue.delivery.Creative)
+        @return: list(parselmouth.delivery.Creative)
         """
 
         if isinstance(line_item, LineItem):
@@ -336,7 +336,7 @@ class DFPInterface(AbstractInterface):
             _id = int(line_item)
         creatives_to_fetch = self.dfp_client.get_line_item_creatives(_id)
         if len(creatives_to_fetch) == 0:
-            raise ParseltongueException(
+            raise ParselmouthException(
                 "No creatives associated with line item: {0}".format(_id)
             )
         creatives = self.get_creatives(
@@ -393,10 +393,10 @@ class DFPInterface(AbstractInterface):
     def _parse_custom_targets(self, custom_targets):
         """
         Helper function for converting native DFP custom targets into
-        Parseltongue types
+        Parselmouth types
 
         @param custom_targets: list(dict)
-        @return: list(parseltongue.targeting.Custom)
+        @return: list(parselmouth.targeting.Custom)
         """
 
         custom_targets = self._convert_response_to_dict(custom_targets)
@@ -440,7 +440,7 @@ class DFPInterface(AbstractInterface):
             targeting with the given key name
         @param value_name: str|None, if present only return
             targeting with the given value name
-        @return: list(parseltongue.targeting.Custom)
+        @return: list(parselmouth.targeting.Custom)
         """
         dfp_custom_targets = self.dfp_client.get_custom_targets(
             key_name, value_name,
@@ -451,9 +451,9 @@ class DFPInterface(AbstractInterface):
         """
         Add a custom target to this domain's ad service provider
 
-        @param key: parseltongue.targeting.Custom
-        @param value: parseltongue.targeting.Custom
-        @return: list(parseltongue.targeting.Custom)
+        @param key: parselmouth.targeting.Custom
+        @param value: parselmouth.targeting.Custom
+        @return: list(parselmouth.targeting.Custom)
         """
         assert isinstance(key, Custom)
         assert isinstance(value, Custom)
@@ -528,7 +528,7 @@ class DFPInterface(AbstractInterface):
         """
         Update multiple Line Item for a provider
 
-        @param line_items: L{parseltongue.delivery.LineItem}
+        @param line_items: L{parselmouth.delivery.LineItem}
         """
         # Convert line items into native format for the dfp client to use
         native_line_items = [

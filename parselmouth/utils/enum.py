@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Parseltongue utilities - Enum
+Parselmouth utilities - Enum
 """
 
 # Future-proof
