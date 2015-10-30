@@ -1,0 +1,6 @@
+application_name: 'APPLICATION_NAME'
+credentials:
+    client_id: 'ID'
+    client_secret: 'SECRET'
+    refresh_token: 'REFRESH_TOKEN'
+    network_code: 'NETWORK_CODE'
