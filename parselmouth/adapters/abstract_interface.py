@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-""" Parseltongue Abstract Interface
+""" Parselmouth Abstract Interface
 """
 
 # Future-proof

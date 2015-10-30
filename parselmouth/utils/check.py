@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Parseltongue utilities - check_equal
+Parselmouth utilities - check_equal
 """
 
 # Future-proof

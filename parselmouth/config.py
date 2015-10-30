@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-""" Parseltongue - Configuration Utilities
+""" Parselmouth - Configuration Utilities
 
 These configuration utilities outline the way configurations may be
-loaded into Parseltongue for authenticating different advertising client
+loaded into Parselmouth for authenticating different advertising client
 APIs
 """
 
@@ -21,11 +21,11 @@ from abc import abstractmethod
 # Third Party Imports
 import yaml
 
-# Parseltongue Imports
-from parseltongue.exceptions import ParseltongueException
+# Parselmouth Imports
+from parselmouth.exceptions import ParselmouthException
 
 
-class ParseltongueConfig(object):
+class ParselmouthConfig(object):
     """
     Abstract Configuration Container
 
@@ -61,7 +61,7 @@ class ParseltongueConfig(object):
         )
 
 
-class DFPConfig(ParseltongueConfig):
+class DFPConfig(ParselmouthConfig):
     """
     Configuration container specific to the DFP API
     """
@@ -91,7 +91,7 @@ class DFPConfig(ParseltongueConfig):
         elif not _credentials_manually_entered and config_path:
             self.load_config_from_file(config_path)
         else:
-            raise ParseltongueException("Unexpected combination of credentials")
+            raise ParselmouthException("Unexpected combination of credentials")
 
     def load_config_from_file(self, config_path):
 

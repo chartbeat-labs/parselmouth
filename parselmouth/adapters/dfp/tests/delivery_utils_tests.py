@@ -2,26 +2,26 @@ import unittest
 from datetime import datetime
 from pytz import timezone
 
-from parseltongue.delivery import Cost
-from parseltongue.delivery import Creative
-from parseltongue.delivery import DeliveryMeta
-from parseltongue.delivery import Goal
-from parseltongue.delivery import LineItem
-from parseltongue.delivery import Campaign
-from parseltongue.delivery import Stats
-from parseltongue.targeting import AdUnit
-from parseltongue.targeting import TargetingCriterion
-from parseltongue.targeting import TargetingData
+from parselmouth.delivery import Cost
+from parselmouth.delivery import Creative
+from parselmouth.delivery import DeliveryMeta
+from parselmouth.delivery import Goal
+from parselmouth.delivery import LineItem
+from parselmouth.delivery import Campaign
+from parselmouth.delivery import Stats
+from parselmouth.targeting import AdUnit
+from parselmouth.targeting import TargetingCriterion
+from parselmouth.targeting import TargetingData
 
-from parseltongue.adapters.dfp.delivery_utils import dfp_date_to_datetime
-from parseltongue.adapters.dfp.delivery_utils import datetime_to_dfp_date
-from parseltongue.adapters.dfp.delivery_utils import transform_campaign_from_dfp
-from parseltongue.adapters.dfp.delivery_utils import transform_campaign_to_dfp
-from parseltongue.adapters.dfp.delivery_utils import transform_line_item_from_dfp
-from parseltongue.adapters.dfp.delivery_utils import transform_line_item_to_dfp
-from parseltongue.adapters.dfp.delivery_utils import transform_forecast_line_item_to_dfp
-from parseltongue.adapters.dfp.delivery_utils import transform_creative_to_dfp
-from parseltongue.adapters.dfp.delivery_utils import transform_creative_from_dfp
+from parselmouth.adapters.dfp.delivery_utils import dfp_date_to_datetime
+from parselmouth.adapters.dfp.delivery_utils import datetime_to_dfp_date
+from parselmouth.adapters.dfp.delivery_utils import transform_campaign_from_dfp
+from parselmouth.adapters.dfp.delivery_utils import transform_campaign_to_dfp
+from parselmouth.adapters.dfp.delivery_utils import transform_line_item_from_dfp
+from parselmouth.adapters.dfp.delivery_utils import transform_line_item_to_dfp
+from parselmouth.adapters.dfp.delivery_utils import transform_forecast_line_item_to_dfp
+from parselmouth.adapters.dfp.delivery_utils import transform_creative_to_dfp
+from parselmouth.adapters.dfp.delivery_utils import transform_creative_from_dfp
 
 
 TEST_LINE_ITEM = LineItem(

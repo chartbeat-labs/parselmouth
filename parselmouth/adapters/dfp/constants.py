@@ -3,9 +3,9 @@ Set of constants for pulling data from DFP
 """
 
 # Chartbeat Imports
-from parseltongue.constants import AdProviderSellTypes
-from parseltongue.constants import ParseltongueReportMetrics
-from parseltongue.utils.enum import Enum
+from parselmouth.constants import AdProviderSellTypes
+from parselmouth.constants import ParselmouthReportMetrics
+from parselmouth.utils.enum import Enum
 
 
 APPLICATION_NAME = 'chartbeatadsDFP'
@@ -40,11 +40,11 @@ dict, map dfp sell type names -> AD_PROVIDER_SELL_TYPES
 """
 
 DFP_REPORT_METRIC_MAP = {
-    ParseltongueReportMetrics.ad_impressions: "AD_SERVER_IMPRESSIONS",
-    ParseltongueReportMetrics.ad_viewable_impressions: "AD_SERVER_ACTIVE_VIEW_VIEWABLE_IMPRESSIONS",
-    ParseltongueReportMetrics.line_item_id: "LINE_ITEM_ID",
-    ParseltongueReportMetrics.line_item_name: "LINE_ITEM_NAME",
-    ParseltongueReportMetrics.delivery_percentage: "AD_SERVER_DELIVERY_INDICATOR",
+    ParselmouthReportMetrics.ad_impressions: "AD_SERVER_IMPRESSIONS",
+    ParselmouthReportMetrics.ad_viewable_impressions: "AD_SERVER_ACTIVE_VIEW_VIEWABLE_IMPRESSIONS",
+    ParselmouthReportMetrics.line_item_id: "LINE_ITEM_ID",
+    ParselmouthReportMetrics.line_item_name: "LINE_ITEM_NAME",
+    ParselmouthReportMetrics.delivery_percentage: "AD_SERVER_DELIVERY_INDICATOR",
 }
 """
 dict, map to column/dimension names in the dfp report api

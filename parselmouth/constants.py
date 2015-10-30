@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-""" Parseltongue - Contants
+""" Parselmouth - Contants
 
-Constants related to Parseltongue and the providers that use it
+Constants related to Parselmouth and the providers that use it
 """
 
 # Future-proof
@@ -12,19 +12,19 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-# Parseltongue Imports
-from parseltongue.utils.enum import Enum
+# Parselmouth Imports
+from parselmouth.utils.enum import Enum
 
 
-ParseltongueProviders = Enum([
+ParselmouthProviders = Enum([
     'google_dfp_premium',
     'google_dfp_small_business',
 ])
 """
-Enum, List of providers that Parseltongue interfaces with
+Enum, List of providers that Parselmouth interfaces with
 """
 
-ParseltongueTargetTypes = Enum([
+ParselmouthTargetTypes = Enum([
     'adunit',
     'geography',
     'demographics',
@@ -53,7 +53,7 @@ Enum, list of valid technology types for targeting
 """
 
 
-ParseltongueReportMetrics = Enum([
+ParselmouthReportMetrics = Enum([
     'ad_impressions',
     'ad_viewable_impressions',
     'line_item_id',

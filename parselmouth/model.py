@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-""" Parseltongue - Ad Server Object Models
+""" Parselmouth - Ad Server Object Models
 
 Base Interfaces for ad server items
 """
@@ -33,24 +33,24 @@ def _initialize_class_name_map():
     """
     global _class_name_map
 
-    from parseltongue.delivery import Cost
-    from parseltongue.delivery import Goal
-    from parseltongue.delivery import Stats
-    from parseltongue.delivery import DeliveryMeta
-    from parseltongue.delivery import Creative
-    from parseltongue.delivery import LineItem
-    from parseltongue.delivery import Campaign
-    from parseltongue.targeting import TargetingData
-    from parseltongue.targeting import AdUnit
-    from parseltongue.targeting import Placement
-    from parseltongue.targeting import Geography
-    from parseltongue.targeting import Technology
-    from parseltongue.targeting import DayPart
-    from parseltongue.targeting import UserDomain
-    from parseltongue.targeting import Custom
-    from parseltongue.targeting import VideoContent
-    from parseltongue.targeting import VideoPosition
-    from parseltongue.targeting import TargetingCriterion
+    from parselmouth.delivery import Cost
+    from parselmouth.delivery import Goal
+    from parselmouth.delivery import Stats
+    from parselmouth.delivery import DeliveryMeta
+    from parselmouth.delivery import Creative
+    from parselmouth.delivery import LineItem
+    from parselmouth.delivery import Campaign
+    from parselmouth.targeting import TargetingData
+    from parselmouth.targeting import AdUnit
+    from parselmouth.targeting import Placement
+    from parselmouth.targeting import Geography
+    from parselmouth.targeting import Technology
+    from parselmouth.targeting import DayPart
+    from parselmouth.targeting import UserDomain
+    from parselmouth.targeting import Custom
+    from parselmouth.targeting import VideoContent
+    from parselmouth.targeting import VideoPosition
+    from parselmouth.targeting import TargetingCriterion
 
     _class_name_map = {
         'Cost': Cost,
@@ -76,7 +76,7 @@ def _initialize_class_name_map():
 
 class ObjectModel(object):
     """
-    Abstract Base for all parseltongue object models
+    Abstract Base for all parselmouth object models
     """
 
     __metaclass__ = ABCMeta

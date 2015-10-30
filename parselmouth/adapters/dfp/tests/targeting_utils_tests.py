@@ -1,15 +1,15 @@
 import unittest
 
-from parseltongue.utils.check import check_equal
-from parseltongue.targeting import AdUnit
-from parseltongue.targeting import Geography
-from parseltongue.targeting import TargetingCriterion
-from parseltongue.targeting import TargetingData
+from parselmouth.utils.check import check_equal
+from parselmouth.targeting import AdUnit
+from parselmouth.targeting import Geography
+from parselmouth.targeting import TargetingCriterion
+from parselmouth.targeting import TargetingData
 
-from parseltongue.adapters.dfp.targeting_utils import transform_inventory_targeting_from_dfp
-from parseltongue.adapters.dfp.targeting_utils import transform_inventory_targeting_to_dfp
-from parseltongue.adapters.dfp.targeting_utils import transform_geography_targeting_from_dfp
-from parseltongue.adapters.dfp.targeting_utils import transform_geography_targeting_to_dfp
+from parselmouth.adapters.dfp.targeting_utils import transform_inventory_targeting_from_dfp
+from parselmouth.adapters.dfp.targeting_utils import transform_inventory_targeting_to_dfp
+from parselmouth.adapters.dfp.targeting_utils import transform_geography_targeting_from_dfp
+from parselmouth.adapters.dfp.targeting_utils import transform_geography_targeting_to_dfp
 
 
 class TargetingUtilsTest(unittest.TestCase):

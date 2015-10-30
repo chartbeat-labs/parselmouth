@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-""" Parseltongue - Targeting Models
+""" Parselmouth - Targeting Models
 
 Base Interfaces for targeting items
 """
@@ -15,11 +15,11 @@ from __future__ import unicode_literals
 # Standard Library Imports
 from copy import deepcopy
 
-# Parseltongue Imports
-from parseltongue.exceptions import ParseltongueException
-from parseltongue.model import ObjectModel
-from parseltongue.utils.enum import Enum
-from parseltongue.utils.check import check_equal
+# Parselmouth Imports
+from parselmouth.exceptions import ParselmouthException
+from parselmouth.model import ObjectModel
+from parselmouth.utils.enum import Enum
+from parselmouth.utils.check import check_equal
 
 
 class AdUnit(ObjectModel):
@@ -274,12 +274,12 @@ class TargetingCriterion(object):
         op2, targets2 = target.get_data()
 
         if not op1 == self.OPERATOR.AND:
-            raise ParseltongueException(
+            raise ParselmouthException(
                 "TargetingCriterion has wrong structure. Top-level operator not an AND."
             )
 
         if not len(targets2) == 1 or isinstance(targets2[0], TargetingCriterion):
-            raise ParseltongueException(
+            raise ParselmouthException(
                 "Target should be a simple TargetingCriterion with a single ObjectModel."
             )
 
@@ -293,7 +293,7 @@ class TargetingCriterion(object):
             target_index = targets1.index(target)
 
         if target_index is None:
-            raise ParseltongueException(
+            raise ParselmouthException(
                 "Target not found in top-level structure."
             )
 

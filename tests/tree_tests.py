@@ -1,9 +1,9 @@
 import unittest
 
-from parseltongue.constants import ParseltongueTargetTypes
-from parseltongue.targeting import AdUnit
-from parseltongue.tree_builder import NodeTree
-from parseltongue.tree_builder import TreeBuilder
+from parselmouth.constants import ParselmouthTargetTypes
+from parselmouth.targeting import AdUnit
+from parselmouth.tree_builder import NodeTree
+from parselmouth.tree_builder import TreeBuilder
 
 
 # Empty Node Tree
@@ -179,21 +179,21 @@ class TreeBuilderTest(unittest.TestCase):
 
         doc1 = self.tree_builder._convert_node_tree_to_doc(NESTED_TREE)
         test1 = self.tree_builder._convert_doc_to_node_tree(
-            doc1, ParseltongueTargetTypes.adunit,
+            doc1, ParselmouthTargetTypes.adunit,
         )
 
         self.assertEqual(test1, NESTED_TREE)
 
         doc2 = self.tree_builder._convert_node_tree_to_doc(DISJOINT_TREE)
         test2 = self.tree_builder._convert_doc_to_node_tree(
-            doc2, ParseltongueTargetTypes.adunit,
+            doc2, ParselmouthTargetTypes.adunit,
         )
 
         self.assertEqual(test2, DISJOINT_TREE)
 
         doc3 = self.tree_builder._convert_node_tree_to_doc(ANCESTOR_TREE)
         test3 = self.tree_builder._convert_doc_to_node_tree(
-            doc3, ParseltongueTargetTypes.adunit,
+            doc3, ParselmouthTargetTypes.adunit,
         )
 
         self.assertEqual(test3, ANCESTOR_TREE)

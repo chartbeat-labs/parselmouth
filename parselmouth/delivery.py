@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-""" Parseltongue - Delivery Models
+""" Parselmouth - Delivery Models
 Base Interfaces for delivery items
 """
 
@@ -14,9 +14,9 @@ from __future__ import unicode_literals
 # Standard Library Imports
 from datetime import datetime
 
-# Parseltongue Imports
-from parseltongue.targeting import TargetingData
-from parseltongue.model import ObjectModel
+# Parselmouth Imports
+from parselmouth.targeting import TargetingData
+from parselmouth.model import ObjectModel
 
 
 class Cost(ObjectModel):
@@ -88,7 +88,7 @@ class DeliveryMeta(ObjectModel):
                  expected_delivery_percent,
                  **kwargs):
         """
-        @param stats: parseltongue.delivery.Stats
+        @param stats: parselmouth.delivery.Stats
         @param delivery_rate_type: str
         @param actual_delivery_percent: str|float
         @param expected_delivery_percent: str|float

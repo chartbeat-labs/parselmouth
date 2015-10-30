@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-""" Parseltongue - Tree Builder
+""" Parselmouth - Tree Builder
 
 Ad providers such as DFP employ complex tree structures to organize
 zones or adunits within their system.  The TreeBuilder class helps
@@ -17,11 +17,11 @@ from __future__ import unicode_literals
 # Standard Library Imports
 from collections import defaultdict
 
-# Parseltongue Imports
-from parseltongue.constants import ParseltongueTargetTypes
-from parseltongue.targeting import AdUnit
-from parseltongue.targeting import Custom
-from parseltongue.targeting import Geography
+# Parselmouth Imports
+from parselmouth.constants import ParselmouthTargetTypes
+from parselmouth.targeting import AdUnit
+from parselmouth.targeting import Custom
+from parselmouth.targeting import Geography
 
 
 class NodeTree(object):
@@ -62,7 +62,7 @@ class NodeTree(object):
         Find a subtree within a list of NodeTrees with the field value given
 
         @param trees: list(NodeTree)
-        @param field_name: ParseltongueFields
+        @param field_name: ParselmouthFields
         @param field_value: str
         @return: NodeTree
         """
@@ -151,7 +151,7 @@ class NodeTree(object):
         children are in the set of filter_ids
 
         @param tree: list(dict)
-        @param key: ParseltongueField, key to filter on
+        @param key: ParselmouthField, key to filter on
         @param filter_ids: set(str)
         @return: list(dict)
         """
@@ -219,22 +219,22 @@ class TreeBuilder(object):
     """
 
     TARGET_CLASS_MAP = {
-        ParseltongueTargetTypes.adunit: AdUnit,
-        ParseltongueTargetTypes.geography: Geography,
-        ParseltongueTargetTypes.demographics: Custom,
-        ParseltongueTargetTypes.ad_position: Custom,
-        ParseltongueTargetTypes.custom: Custom,
+        ParselmouthTargetTypes.adunit: AdUnit,
+        ParselmouthTargetTypes.geography: Geography,
+        ParselmouthTargetTypes.demographics: Custom,
+        ParselmouthTargetTypes.ad_position: Custom,
+        ParselmouthTargetTypes.custom: Custom,
     }
     """
     dict, associate to each target_type the appropriate targeting class
     """
 
     INTERFACE_FUNCTION_MAP = {
-        ParseltongueTargetTypes.adunit: lambda i: i.get_adunit_targets(),
-        ParseltongueTargetTypes.geography: lambda i: i.get_geography_targets(),
-        ParseltongueTargetTypes.demographics: lambda i: i.get_custom_targets(),
-        ParseltongueTargetTypes.ad_position: lambda i: i.get_custom_targets(),
-        ParseltongueTargetTypes.custom: lambda i: i.get_custom_targets(),
+        ParselmouthTargetTypes.adunit: lambda i: i.get_adunit_targets(),
+        ParselmouthTargetTypes.geography: lambda i: i.get_geography_targets(),
+        ParselmouthTargetTypes.demographics: lambda i: i.get_custom_targets(),
+        ParselmouthTargetTypes.ad_position: lambda i: i.get_custom_targets(),
+        ParselmouthTargetTypes.custom: lambda i: i.get_custom_targets(),
     }
     """
     dict, associate to each target_type the interface target getter function
@@ -245,7 +245,7 @@ class TreeBuilder(object):
         Constructor
 
         @param domain: str
-        @param provider_name: ParseltongueProviders
+        @param provider_name: ParselmouthProviders
         @param interface: Interface for provider
         """
         self.provider_name = provider_name
@@ -330,10 +330,10 @@ class TreeBuilder(object):
         Get all data of type target_type from ad provider,
         and build a tree
 
-        @param taget_type: ParseltongueTargetTypes
+        @param taget_type: ParselmouthTargetTypes
         @return: NodeTree
         """
-        assert target_type in ParseltongueTargetTypes
+        assert target_type in ParselmouthTargetTypes
         assert self.interface
         nodes = self.INTERFACE_FUNCTION_MAP[target_type](self.interface)
         return self.build_tree(nodes)
@@ -352,7 +352,7 @@ class TreeBuilder(object):
         Convert a mongo tree doc into a NodeTree Object
 
         @param doc: dict
-        @param target_type: ParseltongueTargetTypes
+        @param target_type: ParselmouthTargetTypes
         @return: NodeTree
         """
         _target_class = self.TARGET_CLASS_MAP[target_type]
