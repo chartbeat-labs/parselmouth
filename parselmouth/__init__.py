@@ -12,7 +12,8 @@ Parselmouth should be imported in the following way:
 """
 
 # Expose package interfaces
-__all__ = ['Parselmouth', 'ParselmouthException']
+__all__ = ['Parselmouth', 'ParselmouthConfig', 'ParselmouthException']
 
 from parselmouth.base import Parselmouth
+from parselmouth.config import ParselmouthConfig
 from parselmouth.exceptions import ParselmouthException
