@@ -67,30 +67,6 @@ def recursive_asdict(obj):
     return out
 
 
-def format_pql_response(raw_list):
-    """
-    Convert a list of lists to where the first
-    row is a list of column names, to a list
-    of dictionaries with keys associated to each
-    column name and values the associated values.
-
-    @param raw_list: list
-    @return: list(dict)
-    """
-    column_keys = raw_list.pop(0)
-    data_list = []
-    for result in raw_list:
-        data = {}
-        for col_name, val in zip(column_keys, result):
-            # NOTE: DFP returns numbers as integers. We refer to integers
-            # as strings throughout the app and therefore want to be
-            # consistent here.
-            data[col_name] = str(val)
-        data_list.append(data)
-
-    return data_list
-
-
 def format_report_list(raw_list):
     """
     Convert a list of lists to where the first
@@ -109,8 +85,7 @@ def format_report_list(raw_list):
             # NOTE: DFP returns numbers as integers. We refer to integers
             # as strings throughout the app and therefore want to be
             # consistent here.
-            val = val.encode('utf-8')
-            data[col_name] = str(val)
+            data[col_name] = str(val).encode('utf-8')
         data_list.append(data)
 
     return data_list

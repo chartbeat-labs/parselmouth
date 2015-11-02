@@ -31,7 +31,6 @@ from parselmouth.adapters.dfp.constants import DFP_API_VERSION
 from parselmouth.adapters.dfp.constants import DFP_CUSTOM_TARGETING_KEY_TYPES
 from parselmouth.adapters.dfp.constants import DFP_QUERY_DEFAULTS
 from parselmouth.adapters.dfp.constants import DFP_VALUE_MATCH_TYPES
-from parselmouth.adapters.dfp.utils import format_pql_response
 from parselmouth.adapters.dfp.utils import format_report_list
 from parselmouth.adapters.dfp.utils import sanitize_report_response
 
@@ -52,7 +51,14 @@ class DFPClient(object):
                  network_code,
                  version=DFP_API_VERSION):
         """
-        Constructor
+        https://developers.google.com/doubleclick-publishers/docs/authentication
+
+        @param client_id: str
+        @param client_secret: str
+        @param refresh_token: str
+        @param application_name: str
+        @param network_code: str
+        @param version: str
         """
         self.version = DFP_API_VERSION
         self.native_dfp_client = self._get_client(
@@ -186,6 +192,11 @@ class DFPClient(object):
         return results
 
     def get_network_data(self):
+        """
+        Get network data associated with dfp account
+
+        @return: SUDS envelope
+        """
         service = self.native_dfp_client.GetService(
             'NetworkService',
             version=self.version,
@@ -448,7 +459,7 @@ class DFPClient(object):
         raw_list = report_downloader.DownloadPqlResultToList(
             pql_query, values,
         )
-        return format_pql_response(raw_list)
+        return format_report_list(raw_list)
 
     def get_geography_targets(self):
         """
@@ -662,7 +673,6 @@ class DFPClient(object):
             ))
 
         return [key, value]
-
 
     def _generate_report_as_list(self, report_query):
         """
