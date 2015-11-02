@@ -85,7 +85,7 @@ def format_report_list(raw_list):
             # NOTE: DFP returns numbers as integers. We refer to integers
             # as strings throughout the app and therefore want to be
             # consistent here.
-            data[col_name] = str(val).encode('utf-8')
+            data[col_name] = str(val).decode('utf-8')
         data_list.append(data)
 
     return data_list

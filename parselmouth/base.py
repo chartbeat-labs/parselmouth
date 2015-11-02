@@ -16,9 +16,6 @@ from __future__ import unicode_literals
 # Standard Library Imports
 import logging
 
-# Third Party Library Imports
-from cjson import decode
-
 # Parselmouth Imports
 from parselmouth.constants import MAX_REQUEST_ATTEMPTS
 from parselmouth.constants import ParselmouthProviders

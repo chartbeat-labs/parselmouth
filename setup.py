@@ -16,6 +16,5 @@ setup(
     install_requires=[
         'googleads==3.8.0',
         'pytz==2015.7',
-        'python-cjson==1.1.0',
     ],
 )
