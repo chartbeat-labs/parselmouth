@@ -23,6 +23,10 @@ import yaml
 
 # Parselmouth Imports
 from parselmouth.exceptions import ParselmouthException
+from parselmouth.constants import ParselmouthProviders
+
+# Parselmouth Imports - Adapter Imports
+from parselmouth.adapters.dfp.config import DFPConfig
 
 
 class ParselmouthConfig(object):
@@ -34,11 +38,45 @@ class ParselmouthConfig(object):
     data sources such as an external credential database instead of a
     file for instance.
     """
-    __metaclass__ = ABCMeta
 
-    @abstractmethod
-    def __init__(self):
-        pass
+    ProviderConfigInterfaceMap = {
+        ParselmouthProviders.google_dfp_premium: DFPConfig,
+        ParselmouthProviders.google_dfp_small_business: DFPConfig,
+    }
+    """
+    dict, mapping between ad service providers and their configuration
+    containers
+    NOTES:
+        * This doesn't serve much purpose right now since all we support
+            is DFP...
+    """
+
+    def __init__(self,
+                 provider_name,
+                 config_path=None,
+                 **kwargs):
+        """
+        @param provider_name: ParselmouthProviders
+        """
+        self.provider_name = provider_name
+        self.provider_config = self.get_config_for_provider(
+            self.provider_name,
+        )
+
+        if config_path:
+            try:
+                self.provider_config.load_config_from_file(
+                    self.provider_name, config_path,
+                )
+            except:
+                raise ParselmouthException("Invalid credential file.")
+        else:
+            try:
+                self.provider_config.load_config_from_external_source(**kwargs)
+            except Exception:
+                raise ParselmouthException("Invalid credential arguments.")
+
+        self.provider_config.validate_credentials()
 
     def __str__(self):
         """
@@ -50,56 +88,28 @@ class ParselmouthConfig(object):
             vars=str(vars(self))
         )
 
-    def load_config_from_file(self, config_path):
-        raise NotImplementedError(
-            "This method must be written for this config container!"
-        )
+    @classmethod
+    def get_config_for_provider(cls, provider_name):
+        """
+        Staticmethod, returns the interface class for a given ad service
+        provider name
 
-    def load_config_from_external_source(self, *args, **kwargs):
-        raise NotImplementedError(
-            "This method must be written for this config container!"
-        )
+        @param provider_name: str, one of enum
+            parselmouth.constants.ParselmouthProviders
+        @return: descendant of
+            parselmouth.adapters.abstract_config.AbstractConfig
+        """
+        client_config = cls.ProviderConfigInterfaceMap.get(provider_name)
+        if not client_config:
+            raise ValueError(
+                "There is no config interface defined for provider: %s" %
+                provider_name
+            )
+        return client_config()
 
-
-class DFPConfig(ParselmouthConfig):
-    """
-    Configuration container specific to the DFP API
-    """
-
-    def __init__(self,
-                 client_id=None,
-                 client_secret=None,
-                 refresh_token=None,
-                 application_name=None,
-                 network_code=None,
-                 config_path=None):
-
-        _credentials_manually_entered = all([
-            client_id,
-            client_secret,
-            refresh_token,
-            application_name,
-            network_code
-        ])
-
-        if _credentials_manually_entered and not config_path:
-            self.client_id = client_id
-            self.client_secret = client_secret
-            self.refresh_token = refresh_token
-            self.network_code = network_code
-            self.application_name = application_name
-        elif not _credentials_manually_entered and config_path:
-            self.load_config_from_file(config_path)
-        else:
-            raise ParselmouthException("Unexpected combination of credentials")
-
-    def load_config_from_file(self, config_path):
-
-        with open(config_path, 'r') as infile:
-            config_dict = yaml.load(infile)
-
-        self.client_id = config_dict['credentials']['client_id']
-        self.client_secret = config_dict['credentials']['client_secret']
-        self.refresh_token = config_dict['credentials']['refresh_token']
-        self.network_code = config_dict['credentials']['network_code']
-        self.application_name = config_dict['application_name']
+    def get_credentials_arguments(self):
+        """
+        @return: dict, dictionary of all values needed to connect
+            to the associated ad provider service
+        """
+        return self.provider_config.get_credentials_arguments()

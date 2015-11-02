@@ -47,19 +47,24 @@ class DFPInterface(AbstractInterface):
     Query Language) representations for querying objects
     """
 
-    def __init__(self, provider_config):
+    def __init__(self,
+                 client_id,
+                 client_secret,
+                 refresh_token,
+                 application_name,
+                 network_code):
         """
         Constructor
 
         @param provider_config: child(parselmouth.config.ParselmouthConfig)
         """
         self.dfp_client = DFPClient(
-            provider_config.client_id,
-            provider_config.client_secret,
-            provider_config.refresh_token,
-            provider_config.application_name,
-            provider_config.network_code,
-            version=DFP_API_VERSION
+            client_id,
+            client_secret,
+            refresh_token,
+            application_name,
+            network_code,
+            version=DFP_API_VERSION,
         )
 
     def _convert_response_to_dict(self, dfp_data):

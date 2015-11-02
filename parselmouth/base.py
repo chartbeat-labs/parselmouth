@@ -25,10 +25,9 @@ from parselmouth.constants import ParselmouthProviders
 from parselmouth.constants import ParselmouthReportMetrics
 from parselmouth.exceptions import ParselmouthException
 from parselmouth.exceptions import ParselmouthNetworkError
-from parselmouth.targeting import Custom
 from parselmouth.tree_builder import TreeBuilder
 from parselmouth.utils.timeout import Timeout
-from parselmouth.config import DFPConfig
+from parselmouth.config import ParselmouthConfig
 
 # Parselmouth Imports - Adapter Imports
 from parselmouth.adapters.dfp.interface import DFPInterface
@@ -51,18 +50,6 @@ class Parselmouth(object):
             is DFP...
     """
 
-    ProviderConfigInterfaceMap = {
-        ParselmouthProviders.google_dfp_premium: DFPConfig,
-        ParselmouthProviders.google_dfp_small_business: DFPConfig,
-    }
-    """
-    dict, mapping between ad service providers and their configuration
-    containers
-    NOTES:
-        * This doesn't serve much purpose right now since all we support
-            is DFP...
-    """
-
     DEFAULT_NETWORK_TIMEOUT = 60 * 10
     """
     int: maximum amount of time in seconds we're willing to wait for
@@ -70,34 +57,35 @@ class Parselmouth(object):
     """
 
     def __init__(self,
-                 provider_name,
-                 provider_config=None,
+                 config=None,
+                 provider_name=None,
                  **kwargs):
         """
         Constructor
 
         Authenticates a provider client for the given domain.
 
+        @param config: parselmouth.config.ParselmouthConfig
         @param provider_name: any(parselmouth.constants.ParseltoungProvider)
-        @param provider_config: child(parselmouth.config.ParselmouthConfig)
-
         """
-        self.provider_name = provider_name
+        self.provider_config = config
+        # Load the provider configuration
+        if self.provider_config and not isinstance(self.provider_config, ParselmouthConfig):
+            raise ParselmouthException(
+                "Invalid config.  Config should be of type ParselmouthConfig",
+            )
+        elif not self.provider_config:
+            self.provider_config = ParselmouthConfig(provider_name, **kwargs)
+
+        # Get interface for given provider
+        self.provider_name = self.provider_config.provider_name
         provider_interface_class = self.get_ad_service_interface_for_provider(
             self.provider_name
         )
 
-        # Load the provider configuration
-        if provider_config:
-            self.provider_config = provider_config
-        else:
-            _provider_config_class = \
-                self.get_ad_service_config_interface_for_provider(
-                    self.provider_name
-                )
-            self.provider_config = _provider_config_class(**kwargs)
-
-        self.provider = provider_interface_class(self.provider_config)
+        self.provider = provider_interface_class(
+            **self.provider_config.get_credentials_arguments()
+        )
         self.tree_builder = TreeBuilder(
             self.provider_name,
             self.provider,
