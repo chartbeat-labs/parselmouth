@@ -35,13 +35,13 @@ class AdUnit(ObjectModel):
                  name=None,
                  include_descendants=True,
                  external_id=None,
-                 chartbeat_id=None):
+                 external_name=None):
         self.id = id
         self.parent_id = parent_id
         self.name = name
         self.include_descendants = include_descendants
         self.external_id = external_id
-        self.chartbeat_id = chartbeat_id
+        self.external_name = external_name
 
 
 class Placement(ObjectModel):
@@ -57,13 +57,13 @@ class Placement(ObjectModel):
                  name=None,
                  adunits=None,
                  external_id=None,
-                 chartbeat_id=None):
+                 external_name=None):
         self.id = id
         self.parent_id = parent_id
         self.name = name
         self.adunits = adunits
         self.external_id = external_id
-        self.chartbeat_id = chartbeat_id
+        self.external_name = external_name
 
 
 class Geography(ObjectModel):
@@ -76,13 +76,13 @@ class Geography(ObjectModel):
                  type=None,
                  name=None,
                  external_id=None,
-                 chartbeat_id=None):
+                 external_name=None):
         self.id = id
         self.parent_id = parent_id
         self.type = type
         self.name = name
         self.external_id = external_id
-        self.chartbeat_id = chartbeat_id
+        self.external_name = external_name
 
 
 class Technology(ObjectModel):
@@ -94,14 +94,14 @@ class Technology(ObjectModel):
                  parent_id=None,
                  name=None,
                  external_id=None,
-                 chartbeat_id=None,
+                 external_name=None,
                  type=None,
                  version=None):
         self.id = id
         self.parent_id = parent_id
         self.name = name
         self.external_id = external_id
-        self.chartbeat_id = chartbeat_id
+        self.external_name = external_name
         self.type = type
         self.version = version
 
@@ -139,7 +139,7 @@ class Custom(ObjectModel):
                  name=None,
                  type=None,
                  external_id=None,
-                 chartbeat_id=None,
+                 external_name=None,
                  descriptive_name=None,
                  node_key=None):
         self.id = id
@@ -148,7 +148,7 @@ class Custom(ObjectModel):
         self.name = name
         self.type = type
         self.external_id = external_id
-        self.chartbeat_id = chartbeat_id
+        self.external_name = external_name
         self.descriptive_name = descriptive_name
         self.node_key = node_key
 
@@ -162,12 +162,12 @@ class VideoContent(ObjectModel):
                  parent_id=None,
                  name=None,
                  external_id=None,
-                 chartbeat_id=None):
+                 external_name=None):
         self.id = id
         self.parent_id = parent_id
         self.name = name
         self.external_id = external_id
-        self.chartbeat_id = chartbeat_id
+        self.external_name = external_name
 
 
 class VideoPosition(ObjectModel):
@@ -179,12 +179,12 @@ class VideoPosition(ObjectModel):
                  parent_id=None,
                  name=None,
                  external_id=None,
-                 chartbeat_id=None):
+                 external_name=None):
         self.id = id
         self.parent_id = parent_id
         self.name = name
         self.external_id = external_id
-        self.chartbeat_id = chartbeat_id
+        self.external_name = external_name
 
 
 class TargetingCriterion(object):

@@ -61,7 +61,6 @@ class NodeTree(object):
         """
         Find a subtree within a list of NodeTrees with the field value given
 
-        @param trees: list(NodeTree)
         @param field_name: ParselmouthFields
         @param field_value: str
         @return: NodeTree
@@ -83,27 +82,22 @@ class NodeTree(object):
 
         return subtree
 
-    def get_subtree_by_chartbeat_id(self, _id):
+    def get_subtree_parents(self, field_name, field_value):
         """
-        Find subtree with the given id
-
-        @param _id: str
-        @return: NodeTree
-        """
-        return self.get_subtree('chartbeat_id', _id)
-
-    def get_subtree_parents(self, _id):
-        """
-        Get the node associated to the given _id, then
-        return a list of all parents of this node
+        Get the node associated to the given field_name/field_value,
+        then return a list of all parent nodes for this node
+        =
+        @param field_name: ParselmouthFields
+        @param field_values: str
+        @return: list(ObjectModel)
         """
         parent_nodes = []
-        if self.node and self.get_subtree_by_chartbeat_id(_id):
+        if self.node and self.get_subtree(field_name, field_value):
             parent_nodes.append(self.node)
 
         if self.children:
             for branch in self.children:
-                parent_nodes += branch.get_subtree_parents(_id)
+                parent_nodes += branch.get_subtree_parents(field_name, field_value)
 
         return parent_nodes
 
@@ -127,7 +121,7 @@ class NodeTree(object):
         If depth is given, give only nodes at the given depth
 
         @param depth: int|None
-        @return: list(dict)
+        @return: list(ObjectModel)
         """
         if only_leaves:
             assert depth is None
@@ -153,7 +147,7 @@ class NodeTree(object):
         @param tree: list(dict)
         @param key: ParselmouthField, key to filter on
         @param filter_ids: set(str)
-        @return: list(dict)
+        @return: NodeTree
         """
         if isinstance(filter_ids, list):
             filter_set = set(filter_ids)
@@ -186,26 +180,26 @@ class NodeTree(object):
 
         @param tree: list(dict)
         @param filter_ids: set(str)
-        @return: list(dict)
+        @return: NodeTree
         """
-        return self.filter_tree_by_key('chartbeat_id', filter_ids)
+        return self.filter_tree_by_key('external_name', filter_ids)
 
-    def update_chartbeat_ids(self, id_map):
+    def update_external_names(self, id_map):
         """
-        Set external ids of nodes in given tree to new values
-        given by the dictionary id_map: id field --> external_id field.
+        Set external names of nodes in given tree to new values
+        given by the dictionary id_map: id field --> external_name field.
         NOTE: This edits the nodes of this tree in place
 
         @param id_map: dict
         """
         current_node = self.node
         if current_node:
-            _chearbeat_id = id_map.get(current_node.id)
-            if _chearbeat_id:
-                current_node.chartbeat_id = _chearbeat_id
+            _external_name = id_map.get(current_node.id)
+            if _external_name:
+                current_node.external_name = _external_name
 
         for branch in self.children:
-            branch.update_chartbeat_ids(id_map)
+            branch.update_external_names(id_map)
 
 
 class TreeBuilder(object):
@@ -286,7 +280,7 @@ class TreeBuilder(object):
         hierarchical type.
 
         @param nodes: list(TargetingModel) with id and parent_id fields
-        @return: list(dict)
+        @return: NodeTree
         """
         node_map = {}
         # Create flat list of all parents and their immediate children

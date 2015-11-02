@@ -12,21 +12,21 @@ EMPTY_TREE = NodeTree(None, [])
 # Make a nested sequence of adunits
 HOMEPAGE = AdUnit(
     id='1',
-    chartbeat_id='1',
+    external_name='1',
     parent_id='',
     name='home',
 )
 
 HOMEPAGE_US = AdUnit(
     id='2',
-    chartbeat_id='2',
+    external_name='2',
     parent_id='1',
     name='home/us',
 )
 
 HOMEPAGE_US_MI = AdUnit(
     id='3',
-    chartbeat_id='3',
+    external_name='3',
     parent_id='2',
     name='home/us/mi',
 )
@@ -65,21 +65,21 @@ NESTED_TREE = NodeTree(
 # Make parallel sequence of adunits
 ENTERTAINMENT = AdUnit(
     id='1',
-    chartbeat_id='1',
+    external_name='1',
     parent_id='-1',
     name='entertainment',
 )
 
 SPORTS = AdUnit(
     id='2',
-    chartbeat_id='2',
+    external_name='2',
     parent_id='-2',
     name='sports',
 )
 
 NEWS = AdUnit(
     id='3',
-    chartbeat_id='3',
+    external_name='3',
     parent_id='-3',
     name='news',
 )
@@ -116,7 +116,7 @@ DISJOINT_TREE = NodeTree(
 # Make another tree shape
 HOMEPAGE_UK = AdUnit(
     id='3',
-    chartbeat_id='3',
+    external_name='3',
     parent_id='1',
     name='home/uk',
 )
@@ -377,6 +377,50 @@ class NodeTreeTest(unittest.TestCase):
         test4 = ANCESTOR_TREE.filter_tree(
             set(["2"]),
         )
+        self.assertEqual(test4, answer4)
+
+    def test_get_subtree_parents(self):
+        answer1 = []
+
+        test1 = EMPTY_TREE.get_subtree_parents(
+            field_name='id',
+            field_value='1',
+        )
+
+        self.assertEqual(test1, answer1)
+
+        answer2 = [
+            HOMEPAGE,
+        ]
+
+        test2 = NESTED_TREE.get_subtree_parents(
+            field_name='id',
+            field_value='2',
+        )
+
+        self.assertEqual(test2, answer2)
+
+        answer3 = [
+            HOMEPAGE,
+            HOMEPAGE_US,
+        ]
+
+        test3 = NESTED_TREE.get_subtree_parents(
+            field_name='id',
+            field_value='3',
+        )
+
+        self.assertEqual(test3, answer3)
+
+        answer4 = [
+            HOMEPAGE,
+        ]
+
+        test4 = ANCESTOR_TREE.get_subtree_parents(
+            field_name='id',
+            field_value='2',
+        )
+
         self.assertEqual(test4, answer4)
 
 

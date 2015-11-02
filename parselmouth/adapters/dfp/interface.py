@@ -363,7 +363,7 @@ class DFPInterface(AbstractInterface):
                 parent_id=item['countrycode'],
                 type=item['type'].lower(),
                 name=item['name'],
-                chartbeat_id=quote(item['name'], ''),
+                external_name=quote(item['name'], ''),
             )
             output_list.append(geo)
 
@@ -384,7 +384,7 @@ class DFPInterface(AbstractInterface):
                 id=item['id'],
                 parent_id=item['parentid'],
                 name=item['name'],
-                chartbeat_id=item['id'],
+                external_name=item['id'],
             )
             output_list.append(adunit)
 
@@ -406,9 +406,9 @@ class DFPInterface(AbstractInterface):
             _external_id = item.get('name')
             if isinstance(_external_id, str):
                 # Must be upper case to be consistent with redshift data
-                _chartbeat_id = _external_id.upper()
+                _external_name = _external_id.upper()
             else:
-                _chartbeat_id = _external_id
+                _external_name = _external_id
 
             display_name = item.get('displayName')
             if display_name == 'None':
@@ -421,7 +421,7 @@ class DFPInterface(AbstractInterface):
                     name=item['name'],
                     type=item.get('type'),
                     external_id=_external_id,
-                    chartbeat_id=_chartbeat_id,
+                    external_name=_external_name,
                     descriptive_name=display_name,
                     # Fields needed for reconstructing dfp custom criterion
                     id_key='valueIds',

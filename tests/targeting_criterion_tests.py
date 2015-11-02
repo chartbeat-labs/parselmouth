@@ -191,7 +191,7 @@ class TargetingCriterionTest(unittest.TestCase):
             'OR': [
                 {
                     '_metadata': {u'cls': 'AdUnit'},
-                    'chartbeat_id': None,
+                    'external_name': None,
                     'external_id': None,
                     'id': '1',
                     'include_descendants': True,
