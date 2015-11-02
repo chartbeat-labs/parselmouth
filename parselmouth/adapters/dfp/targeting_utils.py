@@ -267,23 +267,6 @@ def transform_geography_targeting_to_dfp(targeting):
     return target_dict
 
 
-"""
-The following targeting utils are unimplemented at this time.
-If any of these fields need to be used within python,
-these methods will need to be implemented.  For now, dictionaries
-of native DFP structure will be stored into these targeting
-fields to ensure that the data is not lost.
-"""
-
-
-def transform_user_domain_targeting_from_dfp(targeting):
-    return clean_target_dict(targeting)
-
-
-def transform_user_domain_targeting_to_dfp(targeting):
-    return targeting or None
-
-
 TECHNOLOGY_KEY_MAP = {
     TechnologyTargetTypes.bandwidth_group: {
         'target_name': 'BandwidthGroupTargeting',
@@ -470,6 +453,23 @@ def transform_technology_targeting_to_dfp(targeting):
         dfp_dict[_key] = dict(_val)
 
     return dfp_dict
+
+
+"""
+The following targeting utils are unimplemented at this time.
+If any of these fields need to be used within python,
+these methods will need to be implemented.  For now, dictionaries
+of native DFP structure will be stored into these targeting
+fields to ensure that the data is not lost.
+"""
+
+
+def transform_user_domain_targeting_from_dfp(targeting):
+    return clean_target_dict(targeting)
+
+
+def transform_user_domain_targeting_to_dfp(targeting):
+    return targeting or None
 
 
 def transform_day_part_targeting_from_dfp(targeting):
