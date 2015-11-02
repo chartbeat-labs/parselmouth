@@ -8,11 +8,6 @@ from parselmouth.constants import ParselmouthReportMetrics
 from parselmouth.utils.enum import Enum
 
 
-APPLICATION_NAME = 'chartbeatadsDFP'
-"""
-str, application name reported by the chartbeat dfp oauth module
-"""
-
 DFP_API_VERSION = 'v201508'
 """
 str, version of the DFP API to use
