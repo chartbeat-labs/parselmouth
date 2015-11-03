@@ -47,15 +47,10 @@ class Parselmouth(object):
             is DFP...
     """
 
-    DEFAULT_NETWORK_TIMEOUT = 60 * 10
-    """
-    int: maximum amount of time in seconds we're willing to wait for
-         a network call take
-    """
-
     def __init__(self,
                  config=None,
                  provider_name=None,
+                 network_timeout=60 * 10,
                  **kwargs):
         """
         Constructor
@@ -64,7 +59,10 @@ class Parselmouth(object):
 
         @param config: parselmouth.config.ParselmouthConfig
         @param provider_name: any(parselmouth.constants.ParseltoungProvider)
+        @param network_timeout: int, number seconds before timing out a request
+            the given ad provider service
         """
+        self._network_timeout = network_timeout
         self.provider_config = config
         # Load the provider configuration
         if self.provider_config and not isinstance(self.provider_config, ParselmouthConfig):
@@ -156,7 +154,7 @@ class Parselmouth(object):
 
         @return: pytz.timezone
         """
-        with Timeout(self.DEFAULT_NETWORK_TIMEOUT):
+        with Timeout(self._network_timeout):
             return self.provider.get_network_timezone()
 
     def get_advertisers(self):
@@ -165,7 +163,7 @@ class Parselmouth(object):
 
         @return: list(dict), returns a list of company dictionaries
         """
-        with Timeout(self.DEFAULT_NETWORK_TIMEOUT):
+        with Timeout(self._network_timeout):
             return self.provider.get_advertisers()
 
     def get_campaign(self, campaign_id, include_line_items=False):
@@ -176,7 +174,7 @@ class Parselmouth(object):
         @param include_line_items: bool, include line item data as well
         @return: parselmouth.delivery.Campaign
         """
-        with Timeout(self.DEFAULT_NETWORK_TIMEOUT):
+        with Timeout(self._network_timeout):
             campaign = self.provider.get_campaign(campaign_id)
 
         if include_line_items:
@@ -195,7 +193,7 @@ class Parselmouth(object):
             PQL results
         @return: L{parselmouth.delivery.Campaign}
         """
-        with Timeout(self.DEFAULT_NETWORK_TIMEOUT):
+        with Timeout(self._network_timeout):
             return self.provider.get_campaigns(**kwargs)
 
     def get_line_item(self, line_item_id):
@@ -209,7 +207,7 @@ class Parselmouth(object):
         response = None
         while not response and attempt <= MAX_REQUEST_ATTEMPTS:
             try:
-                with Timeout(self.DEFAULT_NETWORK_TIMEOUT):
+                with Timeout(self._network_timeout):
                     response = self.provider.get_line_item(line_item_id)
             except ParselmouthNetworkError:
                 logging.exception("Got network error on attempt %s" % attempt)
@@ -235,7 +233,7 @@ class Parselmouth(object):
             PQL results
         @return: L{parselmouth.delivery.LineItem}
         """
-        with Timeout(self.DEFAULT_NETWORK_TIMEOUT):
+        with Timeout(self._network_timeout):
             return self.provider.get_line_items(**kwargs)
 
     def get_campaign_line_items(self, campaign):
@@ -245,7 +243,7 @@ class Parselmouth(object):
         @param campaign: Campaign|str,
         @return: L{parselmouth.delivery.LineItem}
         """
-        with Timeout(self.DEFAULT_NETWORK_TIMEOUT):
+        with Timeout(self._network_timeout):
             return self.provider.get_campaign_line_items(campaign)
 
     def get_line_item_available_inventory(self,
@@ -269,7 +267,7 @@ class Parselmouth(object):
             is true then use_start is necessarily true.
         @return: int|None, number of available impressions
         """
-        with Timeout(self.DEFAULT_NETWORK_TIMEOUT):
+        with Timeout(self._network_timeout):
             return self.provider.get_line_item_available_inventory(
                 line_item, use_start, preserve_id
             )
@@ -294,7 +292,7 @@ class Parselmouth(object):
             PQL results
         @return: L{parselmouth.delivery.Creative}
         """
-        with Timeout(self.DEFAULT_NETWORK_TIMEOUT):
+        with Timeout(self._network_timeout):
             return self.provider.get_creatives(**kwargs)
 
     def get_line_item_creatives(self, line_item):
@@ -305,7 +303,7 @@ class Parselmouth(object):
             either the id of the lineitem or an object with the id
         @return: list(parselmouth.delivery.Creative)
         """
-        with Timeout(self.DEFAULT_NETWORK_TIMEOUT):
+        with Timeout(self._network_timeout):
             return self.provider.get_line_item_creatives(line_item)
 
     def get_line_item_report(self,
@@ -329,7 +327,7 @@ class Parselmouth(object):
         @param columns: list(str), list of columns to include
         @return: list(dict)
         """
-        with Timeout(self.DEFAULT_NETWORK_TIMEOUT):
+        with Timeout(self._network_timeout):
             return self.provider.get_line_item_report(
                 start, end, columns,
             )
@@ -343,7 +341,7 @@ class Parselmouth(object):
         @return: Custom|None
         """
 
-        with Timeout(self.DEFAULT_NETWORK_TIMEOUT):
+        with Timeout(self._network_timeout):
             targets = self.provider.get_custom_targets(
                 key_name=parent_name, value_name=name,
             )
@@ -371,7 +369,7 @@ class Parselmouth(object):
 
         @param line_item: parselmouth.delivery.LineItem
         """
-        with Timeout(self.DEFAULT_NETWORK_TIMEOUT):
+        with Timeout(self._network_timeout):
             self.update_line_items([line_item])
 
     def update_line_items(self, line_items):
@@ -380,7 +378,7 @@ class Parselmouth(object):
 
         @param line_items: L{parselmouth.delivery.LineItem}
         """
-        with Timeout(self.DEFAULT_NETWORK_TIMEOUT):
+        with Timeout(self._network_timeout):
             self.provider.update_line_items(line_items)
 
     def create_custom_target(self, key, value):
@@ -391,5 +389,5 @@ class Parselmouth(object):
         @param value: parselmouth.targeting.Custom
         @return: list(parselmouth.targeting.Custom)
         """
-        with Timeout(self.DEFAULT_NETWORK_TIMEOUT):
+        with Timeout(self._network_timeout):
             return self.provider.create_custom_target(key, value)
