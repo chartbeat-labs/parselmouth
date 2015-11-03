@@ -31,6 +31,7 @@ from parselmouth.adapters.dfp.constants import DFP_API_VERSION
 from parselmouth.adapters.dfp.constants import DFP_CUSTOM_TARGETING_KEY_TYPES
 from parselmouth.adapters.dfp.constants import DFP_QUERY_DEFAULTS
 from parselmouth.adapters.dfp.constants import DFP_VALUE_MATCH_TYPES
+from parselmouth.adapters.dfp.utils import format_pql_response
 from parselmouth.adapters.dfp.utils import format_report_list
 from parselmouth.adapters.dfp.utils import sanitize_report_response
 
@@ -459,7 +460,7 @@ class DFPClient(object):
         raw_list = report_downloader.DownloadPqlResultToList(
             pql_query, values,
         )
-        return format_report_list(raw_list)
+        return format_pql_response(raw_list)
 
     def get_geography_targets(self):
         """
