@@ -96,10 +96,6 @@ client = Parselmouth(config)
 ```
 
 ##Basic Usage
-
-Detailed usage of each function on Parselmouth can be
-found [here]
-
 ####Campaigns
 
 A primary use-case of Parselmouth is to obtain information
@@ -130,6 +126,8 @@ You can also get line item and creative objects
 'CREATIVE_ID'
 ```
 
+For more details on working with delivery objects see [here](docs/delivery.md)
+
 ####Line Item Targeting
 
 One of the most convenient features of Parselmouth is it's abstraction of
@@ -139,13 +137,20 @@ a simple way of applying aribtrary boolean inclusion/exclusion criterion to a
 LineItem.
 
 ```python
->>> targeting = line_item.targeting
->>> print targeting
-TargetingData({'video_position': None, 'day_part': None, 'custom': None, 'inventory': TargetingCriterion({'OR': [Placement({'adunits': None, 'external_name': None, 'name': None, 'parent_id': None, 'external_id': None, 'id': 'ID'})]}), 'video_content': None, 'user_domain': None, 'technology': None, 'geography': None})
->>> print targeting.inventory
+>>> from parselmouth.targeting import Geography
+>>> usa = Geography(name='USA')
+>>> canada = Geography(name='Canada')
+>>> uk = Geography(name='UK')
+>>> scotland = Geography(name='Scotland')
+>>> na_region = TargetingCriterion([usa, canada], TargetingCriterion.OPERATOR.OR)
+>>> uk_region = TargetingCriterion([uk, scotland], TargetingCriterion.OPERATOR.OR)
+>>> target_either = na_region | uk_region
+>>> target_na_only = na_region & ~uk_region
+>>> target_neither = ~(na_region | uk_region)
 ```
 
-For more details on targeting see [here]
+
+For more details on targeting see [here](docs/targeting.md)
 
 #### Trees
 
@@ -164,11 +169,12 @@ these tree structures using objects called NodeTrees.
 >>> for sub_unit in sports_tree.flatten():
 ...     print sub_unit.name
 ...
+'Sports'
 'Sports/Hockey'
 'Sports/Baseball'
 ```
 
-For more details on trees see [here]
+For more details on trees click [here](docs/trees.md)
 
 ####Object Serialization
 
