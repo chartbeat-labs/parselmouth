@@ -133,7 +133,7 @@ For more details on working with delivery objects see [here](docs/delivery.md)
 One of the most convenient features of Parselmouth is it's abstraction of
 targeting information. Native API implementations of targeting configurations
 are terribly complex, unwieldy, and difficult to manipulate. Parselmouth defines
-a simple way of applying aribtrary boolean inclusion/exclusion criterion to a
+a simple way of applying arbitrary boolean inclusion/exclusion criterion to a
 LineItem.
 
 ```python

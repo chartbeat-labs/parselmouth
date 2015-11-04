@@ -121,18 +121,25 @@ class NodeTree(object):
         If depth is given, give only nodes at the given depth
 
         @param depth: int|None
+        @param only_leaves: bool, only return maximal depth nodes
         @return: list(ObjectModel)
         """
         if only_leaves:
             assert depth is None
+
         descendants = []
-        if self.node and (depth is None or self.depth == depth) and (only_leaves is False or len(self.children) == 0):
+        if self.node and \
+            (depth is None or self.depth == depth) and \
+            (only_leaves is False or len(self.children) == 0):
             descendants.append(self.node)
 
         if self.children:
             for branch in self.children:
                 if branch.children:
-                    descendants += branch.flatten(depth=depth, only_leaves=only_leaves)
+                    descendants += branch.flatten(
+                        depth=depth,
+                        only_leaves=only_leaves,
+                    )
                 elif branch.node and (depth is None or branch.depth == depth):
                     descendants.append(branch.node)
 
@@ -144,7 +151,6 @@ class NodeTree(object):
         included in the set of filter_ids or at least of of its
         children are in the set of filter_ids
 
-        @param tree: list(dict)
         @param key: ParselmouthField, key to filter on
         @param filter_ids: set(str)
         @return: NodeTree
