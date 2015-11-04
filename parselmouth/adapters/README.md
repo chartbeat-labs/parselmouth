@@ -7,7 +7,7 @@ contains the implementers required by the
 ["bridge" programming pattern](http://en.wikipedia.org/wiki/Bridge_pattern).
 
 Adapters fit into the following class diagram:
-![Bridge Class Diagram](../../assets/Bridge_UML_class_diagram.png)
+![Bridge Class Diagram](assets/Bridge_UML_class_diagram.png)
 
 * **Abstraction (abstract class)**
     * Defines the abstract interface to an ad service.
@@ -30,7 +30,7 @@ Adapters fit into the following class diagram:
 
 ## Currently Supported Ad Services (2015-02-25)
 
-### [Google Doubleclick for Publishers](dfp/README.md)
+### [Google Doubleclick for Publishers](https://developers.google.com/doubleclick-publishers/docs)
 
 ##Authors:
   * Justin Mazur: justin.mazur@chartbeat.com
