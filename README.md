@@ -126,7 +126,7 @@ You can also get line item and creative objects
 'CREATIVE_ID'
 ```
 
-For more details on working with delivery objects see [here](docs/delivery.md)
+Click [here](docs/delivery.md) for more details on working with delivery objects.
 
 ####Line Item Targeting
 
@@ -137,20 +137,25 @@ a simple way of applying arbitrary boolean inclusion/exclusion criterion to a
 LineItem.
 
 ```python
->>> from parselmouth.targeting import Geography
->>> usa = Geography(name='USA')
->>> canada = Geography(name='Canada')
->>> uk = Geography(name='UK')
->>> scotland = Geography(name='Scotland')
->>> na_region = TargetingCriterion([usa, canada], TargetingCriterion.OPERATOR.OR)
->>> uk_region = TargetingCriterion([uk, scotland], TargetingCriterion.OPERATOR.OR)
->>> target_either = na_region | uk_region
->>> target_na_only = na_region & ~uk_region
->>> target_neither = ~(na_region | uk_region)
+from parselmouth.targeting import Geography
+
+# Initialize some geography targets
+usa = Geography(name='USA')
+canada = Geography(name='Canada')
+uk = Geography(name='UK')
+scotland = Geography(name='Scotland')
+
+# Initialize some regional TargetingCriterion
+na_region = TargetingCriterion([usa, canada], TargetingCriterion.OPERATOR.OR)
+uk_region = TargetingCriterion([uk, scotland], TargetingCriterion.OPERATOR.OR)
+
+# Build new TargetingCriterion using boolean operators
+target_either = na_region | uk_region
+target_na_only = na_region & ~uk_region
+target_neither = ~(na_region | uk_region)
 ```
 
-
-For more details on targeting see [here](docs/targeting.md)
+Click [here](docs/targeting.md) for more details on targeting.
 
 #### Trees
 
@@ -174,7 +179,7 @@ these tree structures using objects called NodeTrees.
 'Sports/Baseball'
 ```
 
-For more details on trees click [here](docs/trees.md)
+Click [here](docs/trees.md) for more details on trees.
 
 ####Object Serialization
 
