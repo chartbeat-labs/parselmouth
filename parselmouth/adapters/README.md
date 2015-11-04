@@ -30,7 +30,7 @@ Adapters fit into the following class diagram:
 
 ## Currently Supported Ad Services (2015-02-25)
 
-### [Google Doubleclick for Publishers](https://developers.google.com/doubleclick-publishers/docs)
+### [Google Doubleclick for Publishers](https://developers.google.com/doubleclick-publishers/docs/start)
 
 ##Authors:
   * Justin Mazur: justin.mazur@chartbeat.com
