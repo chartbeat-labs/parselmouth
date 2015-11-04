@@ -18,6 +18,7 @@ object in the following way:
 campaign = client.get_campaign('ORDER_ID')
 campaign = client.get_campaigns(id='ORDER_ID')
 campaigns = client.get_campaigns(id=['ORDER_ID1', 'ORDER_ID2'])
+all_campaigns = client.get_campaigns()
 ```
 
 You also have the ability to query for a larger group of campaigns
@@ -49,6 +50,10 @@ line_item = parselmouth_client.get_line_items(id="id1")
 # Fetching multiple line items by id
 line_item_ids = ["id1", "id2", ... , "idN"]
 line_items = parselmouth_client.get_line_items(id=line_item_ids)
+
+# Fetching all line items
+# NOTE: This can be very slow
+all_line_items = client.get_line_items()
 ```
 
 ##### Updating a Line Item
@@ -120,7 +125,7 @@ creatives = parselmouth_client.get_creative(id=["creative_id1", "creative_id2"])
 
 #### Cost
 
-Basic container for mmodeling Campaign and Line Item Budgets and Costs.
+Basic container for modeling Campaign and Line Item Budgets and Costs.
 
 #### Goal
 
