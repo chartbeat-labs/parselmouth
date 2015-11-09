@@ -48,6 +48,29 @@ CRITERION5 = TargetingCriterion(
 
 class TargetingCriterionTest(unittest.TestCase):
 
+    def test_init(self):
+        criterion1 = TargetingCriterion(
+            [ADUNIT1], TargetingCriterion.OPERATOR.OR,
+        )
+        criterion2 = TargetingCriterion(
+            ADUNIT1,
+        )
+        self.assertEqual(criterion1, criterion2)
+
+        with self.assertRaises(ParselmouthException):
+            TargetingCriterion(CRITERION1)
+
+        with self.assertRaises(ParselmouthException):
+            TargetingCriterion([CRITERION1])
+
+        with self.assertRaises(ParselmouthException):
+            TargetingCriterion([CRITERION1], 'XOR')
+
+        with self.assertRaises(ParselmouthException):
+            TargetingCriterion(
+                CRITERION1, TargetingCriterion.OPERATOR.OR,
+            )
+
     def test_get_data(self):
         answer_targets = []
         answer_op = TargetingCriterion.OPERATOR.OR
@@ -228,6 +251,7 @@ class TargetingCriterionTest(unittest.TestCase):
             CRITERION4,
             TargetingCriterion.from_doc(CRITERION4.to_doc()),
         )
+
 
 if __name__ == "__main__":
     unittest.main()

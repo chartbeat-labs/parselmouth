@@ -114,8 +114,11 @@ the line item on the ad providers end.
 ```python
 old_custom = line_item.targeting.custom
 
+# Create targeting criterion for female demo target
+female_target = TargetingCriterion(female_demo)
+
 # Apply female demo target to previous custom target
-new_custom = old_custom & female_demo
+new_custom = old_custom & female_target
 
 # Update custom targeting
 line_item.targeting.custom = new_custom

@@ -197,12 +197,21 @@ class TargetingCriterion(object):
     Enum, list of allowed operators
     """
 
-    def __init__(self, target_list, operator):
+    def __init__(self, target_list, operator=None):
         """
-        @param target_list: list(ObjectModel)|list(TargetingCriterion)
+        @param target_list: list(ObjectModel)|list(TargetingCriterion)|ObjectModel
         @param operator: self.OPERATOR
         """
-        assert operator in self.OPERATOR
+        if isinstance(target_list, ObjectModel):
+            # Cast to list in case a single ObjectModel is inputed
+            target_list = [target_list]
+            operator = self.OPERATOR.OR
+
+        if not operator in self.OPERATOR:
+            raise ParselmouthException("Invalid operator")
+        if not isinstance(target_list, list):
+            raise ParselmouthException("Invalid target list")
+
         self._data = {operator: target_list}
 
     def __str__(self):
