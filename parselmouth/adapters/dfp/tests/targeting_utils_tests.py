@@ -374,21 +374,20 @@ class TargetingUtilsTest(unittest.TestCase):
             ],
 
         }
-
-        self.assertTrue(check_equal(
+        self.assertEqual(
             dfp_custom1,
             transform_custom_targeting_to_dfp(custom1_target),
-        ))
+        )
 
         # Test reflexivity
-        self.assertTrue(check_equal(
+        self.assertEqual(
             dfp_custom1,
             transform_custom_targeting_to_dfp(
                 transform_custom_targeting_from_dfp(
                     dfp_custom1,
                 ),
             ),
-        ))
+        )
 
         custom2_or_custom3 = TargetingCriterion(
             [custom2, custom3],
@@ -407,10 +406,10 @@ class TargetingUtilsTest(unittest.TestCase):
             ],
 
         }
-        self.assertTrue(check_equal(
+        self.assertEqual(
             dfp_custom2_or_custom3,
             transform_custom_targeting_to_dfp(custom2_or_custom3),
-        ))
+        )
 
         custom2_and_not_custom3 = TargetingCriterion(custom2) & ~TargetingCriterion(custom3)
         dfp_custom2_and_not_custom3 = {
@@ -444,10 +443,10 @@ class TargetingUtilsTest(unittest.TestCase):
             ],
 
         }
-        self.assertTrue(check_equal(
+        self.assertEqual(
             dfp_custom2_and_not_custom3,
             transform_custom_targeting_to_dfp(custom2_and_not_custom3),
-        ))
+        )
 
         custom1_and_custom2_and_not_custom3 = custom1_target & custom2_and_not_custom3
         dfp_custom1_and_custom2_and_not_custom3 = {
@@ -499,10 +498,10 @@ class TargetingUtilsTest(unittest.TestCase):
             ],
 
         }
-        self.assertTrue(check_equal(
+        self.assertEqual(
             dfp_custom1_and_custom2_and_not_custom3,
             transform_custom_targeting_to_dfp(custom1_and_custom2_and_not_custom3),
-        ))
+        )
 
         custom1_or_custom2_and_not_custom3 = custom1_target | custom2_and_not_custom3
         dfp_custom1_or_custom2_and_not_custom3 = {
@@ -554,10 +553,10 @@ class TargetingUtilsTest(unittest.TestCase):
             ],
 
         }
-        self.assertTrue(check_equal(
+        self.assertEqual(
             dfp_custom1_or_custom2_and_not_custom3,
             transform_custom_targeting_to_dfp(custom1_or_custom2_and_not_custom3),
-        ))
+        )
 
         custom1_or_custom2_or_custom3 = custom1_target | custom2_or_custom3
         dfp_custom1_or_custom2_or_custom3 = {
@@ -565,23 +564,23 @@ class TargetingUtilsTest(unittest.TestCase):
             'xsi_type': 'CustomCriteriaSet',
             'children': [
                 {
-                    'audienceSegmentIds': ['1'],
-                    'operator': 'IS',
-                    'xsi_type': 'AudienceSegmentCriteria',
-                },
-                {
                     'valueIds': ['2', '3'],
                     'keyId': 'gender',
                     'operator': 'IS',
                     'xsi_type': 'CustomCriteria',
-                }
+                },
+                {
+                    'audienceSegmentIds': ['1'],
+                    'operator': 'IS',
+                    'xsi_type': 'AudienceSegmentCriteria',
+                },
             ],
 
         }
-        self.assertTrue(check_equal(
+        self.assertEqual(
             dfp_custom1_or_custom2_or_custom3,
             transform_custom_targeting_to_dfp(custom1_or_custom2_or_custom3),
-        ))
+        )
 
 
 if __name__ == "__main__":

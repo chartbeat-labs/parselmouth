@@ -20,9 +20,6 @@ def check_equal(obj1, obj2):
     @parma obj2
     @return: bool
     """
-    if obj1 == obj2:
-        return True
-
     if type(obj1) != type(obj2):
         return False
 
