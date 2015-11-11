@@ -14,6 +14,7 @@ using these services by standardizing a simple, pythonic object-oriented
 interface that abstracts away the frustrating implementation details of an
 external API.
 
+For background on how this project began, click [here](http://engineering.chartbeat.com/2015/11/11/parselmouth/)
 
 ## How do I get started?
 #### Installing the library
