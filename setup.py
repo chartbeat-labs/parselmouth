@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 setup(
     name='parselmouth',
     packages=find_packages(),
-    version='1.0.1',
+    version='1.0.2',
     description=(
         'An object oriented interface for ad provider services in python'
     ),

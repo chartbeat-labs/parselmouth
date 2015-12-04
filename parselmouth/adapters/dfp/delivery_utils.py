@@ -256,7 +256,7 @@ def transform_line_item_from_dfp(line_item):
         status=line_item['status'],
         targeting=targeting,
         value_cost_per_unit=value_cost_per_unit,
-        creative_placeholder=line_item['creativePlaceholders'],
+        creative_placeholder=line_item.get('creativePlaceholders'),
         target_platform=line_item.get('targetPlatform'),
     )
 
