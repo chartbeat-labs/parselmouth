@@ -90,7 +90,11 @@ class Parselmouth(object):
         try:
             self.get_network_timezone()
         except Exception as e:
-            raise ParselmouthException("Provider not configured correctly. {}".format(str(e)))
+            raise ParselmouthException(
+                "Provider not configured correctly. Got error: '{}'".format(
+                    str(e)
+                )
+            )
 
     def __str__(self):
         """

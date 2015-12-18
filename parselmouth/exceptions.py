@@ -10,6 +10,9 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
+# Third Party Library Imports
+from stopit import TimeoutException
+
 
 class ParselmouthException(Exception):
     """ Base Exception for the Parselmouth project
@@ -21,7 +24,7 @@ class ParselmouthNetworkError(Exception):
     """
     pass
 
-class ParselmouthTimeout(ParselmouthNetworkError):
+class ParselmouthTimeout(TimeoutException):
     """
     Raised when the block under context management takes longer to
     complete than the allowed maximum timeout value.
