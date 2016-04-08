@@ -202,7 +202,7 @@ True
 ```
 
 ##Authors:
-  * Justin Mazur: justin.mazur@chartbeat.com
+  * Justin Mazur: justindmazur@gmail.com
   * Paul Kiernan: paul@chartbeat.com
 
 
